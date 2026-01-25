@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | iNEX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <header class="header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <img src="assets/images/logo-inex-transparent.png" alt="iNEX Logo" class="logo-img">
+            </a>
+            <nav class="nav-links">
+                <a href="index.html" data-i18n="home">Home</a>
+                <a href="services.html" data-i18n="services">Services</a>
+                <a href="about.html" data-i18n="nav_about">About</a>
+                <a href="contact.html" data-i18n="contact">Contact</a>
+            </nav>
+            <div style="display: flex; gap: 24px; align-items: center;">
+                <!-- Theme Toggle -->
+                <button id="theme-toggle"
+                    style="background:none; border:none; cursor:pointer; color:var(--color-text); display:flex; align-items:center; opacity:0.8;">
+                    <svg id="theme-icon" viewBox="0 0 24 24"
+                        style="width:20px; height:20px; stroke: currentColor; fill:none; stroke-width:2;">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+
+                <div
+                    style="font-size: 0.85rem; cursor: pointer; display: flex; gap: 8px; font-weight: 600; opacity: 0.7;">
+                    <span class="lang-btn" data-lang="en">EN</span> | <span class="lang-btn" data-lang="sq">SQ</span> |
+                    <span class="lang-btn" data-lang="de">DE</span>
+                </div>
+                <a href="login.html"
+                    style="background:none; border:none; color:inherit; font-weight:600; font-size:0.9rem; cursor:pointer; opacity:0.8; text-decoration: none;"
+                    data-i18n="client_login">Client Login</a>
+                <a href="contact.html" id="book-call-btn" class="btn btn-primary" data-i18n="cta">Get Started</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="section" style="padding-top: 120px;">
+        <div class="container">
+            <div style="display: flex; gap: 40px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 80px;">
+                <div style="flex: 1; min-width: 300px;" class="fade-up">
+                    <div style="position: relative;" class="team-container">
+                        <img src="assets/images/founders.png" alt="Founders" class="team-img team-default"
+                            style="border-radius: 4px; box-shadow: 0 30px 60px -15px rgba(0,0,0,0.5);">
+
+                        <div
+                            style="position: absolute; bottom: -20px; right: -20px; background: var(--color-surface); padding: 24px; border: 1px solid var(--color-border); border-radius: 4px;">
+                            <div style="font-weight: 800; font-size: 1.5rem; color: var(--color-primary);">19</div>
+                            <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em;"
+                                data-i18n="years_old">Years Old
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="flex: 1; min-width: 300px; padding-top: 10px;" class="fade-up">
+                    <h1 class="text-gradient" style="margin-bottom: 32px; font-size: 3.5rem;" data-i18n="about_title">
+                        Built by Visionaries.</h1>
+                    <p style="font-size: 1.25rem; opacity: 0.8; margin-bottom: 32px; line-height: 1.8;"
+                        data-i18n="about_desc">
+                        iNEX was founded by Jon Kabashi and Aris Kadriu, two 19-year-old builders with a shared
+                        obsession: creating digital experiences that feel alive.
+                    </p>
+                    <div style="padding-left: 24px; border-left: 2px solid var(--color-primary); margin-bottom: 32px;">
+                        <p style="font-size: 1.1rem; opacity: 0.7; font-style: italic;" data-i18n="about_quote">
+                            "We noticed a gap in Prishtina. Most agencies offer clunky templates. We build premium,
+                            custom, and engineered performance."
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Section: Our Values -->
+            <div style="margin-bottom: 120px;">
+                <h2 class="text-gradient fade-up" style="text-align: center; margin-bottom: 60px;"
+                    data-i18n="values_title">Our Core Values</h2>
+                <div class="card-grid">
+                    <div class="card fade-up">
+                        <div style="margin-bottom: 16px; color: var(--color-primary);">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                            </svg>
+                        </div>
+                        <h3 data-i18n="val_speed_title">Speed is Feature #1</h3>
+                        <p style="opacity: 0.7;" data-i18n="val_speed_desc">We obsess over milliseconds. Slow websites
+                            kill conversion rates.</p>
+                    </div>
+                    <div class="card fade-up" style="transition-delay: 0.1s;">
+                        <div style="margin-bottom: 16px; color: var(--color-primary);">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 data-i18n="val_quality_title">Quality over Quantity</h3>
+                        <p style="opacity: 0.7;" data-i18n="val_quality_desc">We take fewer clients to ensure every
+                            project is a masterpiece.</p>
+                    </div>
+                    <div class="card fade-up" style="transition-delay: 0.2s;">
+                        <div style="margin-bottom: 16px; color: var(--color-primary);">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </div>
+                        <h3 data-i18n="val_transp_title">Radical Transparency</h3>
+                        <p style="opacity: 0.7;" data-i18n="val_transp_desc">No hidden code. No hidden fees. You see
+                            what we build.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Section: Timeline/Story -->
+            <div class="fade-up">
+                <h2 class="text-gradient" style="margin-bottom: 40px;" data-i18n="journey_title">Our Journey</h2>
+                <div style="border-left: 1px solid var(--color-border); padding-left: 40px;">
+                    <div style="margin-bottom: 40px; position: relative;">
+                        <span
+                            style="position: absolute; left: -45px; background: var(--color-primary); width: 10px; height: 10px; border-radius: 50%; top: 10px;"></span>
+                        <h4 style="margin-bottom: 8px;" data-i18n="journey_24_title">2024 - The Beginning</h4>
+                        <p style="opacity: 0.7;" data-i18n="journey_24_desc">Started freelancing from a small bedroom in
+                            Prishtina, learning React
+                            and modern CSS.</p>
+                    </div>
+                    <div style="margin-bottom: 40px; position: relative;">
+                        <span
+                            style="position: absolute; left: -45px; background: var(--color-primary); width: 10px; height: 10px; border-radius: 50%; top: 10px;"></span>
+                        <h4 style="margin-bottom: 8px;" data-i18n="journey_25_title">2025 - First Big Client</h4>
+                        <p style="opacity: 0.7;" data-i18n="journey_25_desc">Landed our first international contract.
+                            Realized the need for a proper
+                            agency value.</p>
+                    </div>
+                    <div style="position: relative;">
+                        <span
+                            style="position: absolute; left: -45px; background: var(--color-primary); width: 10px; height: 10px; border-radius: 50%; top: 10px;"></span>
+                        <h4 style="margin-bottom: 8px;" data-i18n="journey_26_title">2026 - iNEX Launch</h4>
+                        <p style="opacity: 0.7;" data-i18n="journey_26_desc">Officially launched iNEX to bring premium
+                            digital infrastructure to
+                            Kosovo and the world.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid" style="margin-bottom: 30px;">
+                <!-- Left: Logo -->
+                <div style="text-align: left;">
+                    <a href="index.html" class="logo" style="margin-bottom: 8px; display: inline-block;">
+                        <img src="assets/images/logo-inex-transparent.png" alt="iNEX Logo" class="footer-logo">
+                    </a>
+                </div>
+
+                <!-- Center: Time & Status -->
+                <div style="text-align: center; font-size: 0.9rem; opacity: 0.6;">
+                    <span id="prishtina-time">--:--</span> in Prishtina • We are Online
+                </div>
+
+                <!-- Right: Socials -->
+                <div
+                    style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; justify-content: center;">
+                    <div class="social-links" style="margin: 0;">
+                        <a href="https://www.facebook.com/profile.php?id=61586909169851" target="_blank"
+                            class="social-link" aria-label="Facebook">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/inexagency/" target="_blank" class="social-link"
+                            aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom: Copyright -->
+            <div
+                style="text-align: center; border-top: 1px solid var(--color-border); padding-top: 20px; font-size: 0.8rem; opacity: 0.5;">
+                <p style="margin: 0;" data-i18n="footer_rights">&copy; 2026 iNEX Agency. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="booking-overlay" class="modal" style="background: rgba(0,0,0,0.95);">
+        <div class="modal-content" style="max-width: 600px; text-align: center;">
+            <span class="close-modal" onclick="closeModal('booking-overlay')">&times;</span>
+            <h2 class="text-gradient">Book a Strategy Call</h2>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 24px 0;">
+                <div class="time-slot">10:00 AM</div>
+                <div class="time-slot">11:30 AM</div>
+                <div class="time-slot">02:00 PM</div>
+            </div>
+            <button class="btn btn-primary" onclick="alert('Booking Confirmed! (Demo)')">Confirm Time</button>
+        </div>
+    </div>
+
+    <div id="portal-modal" class="modal">
+        <div class="modal-content" style="max-width: 900px; padding: 0;">
+            <span class="close-modal" style="position: absolute; right: 20px; top: 20px;"
+                onclick="closeModal('portal-modal')">&times;</span>
+            <div style="text-align: center; padding: 40px;">
+                <h2 class="text-gradient">Client Portal Demo</h2>
+                <img src="assets/images/portal.png" style="width: 100%; border-radius: 8px;">
+            </div>
+        </div>
+    </div>
+
+    <div id="back-to-top" class="back-to-top">
+        <svg viewBox="0 0 24 24">
+            <path d="M18 15l-6-6-6 6"></path>
+        </svg>
+    </div>
+
+    <script src="translations.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

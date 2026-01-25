@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Login - iNEX Agency</title>
+    <meta name="description" content="Secure client access for project tracking and invoices.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .login-hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--color-border);
+            padding: 40px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            backdrop-filter: blur(16px);
+            z-index: 10;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .login-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-border);
+            padding: 12px 16px;
+            border-radius: 6px;
+            color: var(--color-text);
+            margin-bottom: 16px;
+            font-family: 'Outfit', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .login-input:focus {
+            border-color: var(--color-primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(234, 179, 8, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+
+<body class="bg-noise">
+    <!-- Background Elements -->
+    <div class="glow-orb" style="top: -10%; left: -10%; width: 50vw; height: 50vw; opacity: 0.05;"></div>
+    <div class="glow-orb" style="bottom: -10%; right: -10%; width: 50vw; height: 50vw; opacity: 0.05;"></div>
+
+    <section class="login-hero">
+        <!-- Removed 'fade-up' class to ensure visibility without external scripts -->
+        <div class="login-card">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <a href="index.html" class="logo" style="display: inline-block; margin-bottom: 16px;">
+                    <img src="assets/images/logo-inex-transparent.png" alt="iNEX Logo" class="logo-img"
+                        style="height: 60px;">
+                </a>
+                <h1 style="font-size: 1.5rem; margin-bottom: 8px;">Client Portal</h1>
+                <p style="opacity: 0.6; font-size: 0.9rem;">Sign in to view your project status.</p>
+            </div>
+
+            <form id="login-form">
+                <div style="margin-bottom: 24px;">
+                    <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; opacity: 0.8;">Client Access
+                        Key</label>
+                    <input type="password" id="access-key" class="login-input" placeholder="e.g. INEX-PROJECT-001"
+                        required
+                        style="text-align: center; letter-spacing: 2px; font-weight: 600; caret-color: #fab005;"
+                        autofocus>
+                    <div id="login-error" style="color: #ef4444; font-size: 0.8rem; display: none; margin-top: 8px;">
+                        Invalid Access Key. Please contact support.</div>
+                </div>
+
+                <button type="submit" class="btn btn-primary login-btn">Access Dashboard</button>
+            </form>
+
+            <div style="margin-top: 24px; text-align: center; font-size: 0.8rem; opacity: 0.5;">
+                &copy; 2026 iNEX Agency. Secure Encryption.
+            </div>
+        </div>
+    </section>
+
+    <!-- Load the external "Database" file -->
+    <!-- Script removed: Using API backend -->
+
+    <!-- Simple Login Logic -->
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const keyInput = document.getElementById('access-key');
+            const errorMsg = document.getElementById('login-error');
+            const originalText = btn.innerText;
+
+            btn.innerText = "Verifying Key...";
+            btn.style.opacity = 0.7;
+            errorMsg.style.display = 'none';
+
+            const inputKey = keyInput.value.trim().toUpperCase();
+
+            // API Login
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ key: inputKey })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    localStorage.setItem('inex_client_token', result.token);
+                    if (result.role === 'admin') {
+                        window.location.href = 'admin.html';
+                    } else {
+                        window.location.href = 'dashboard.html';
+                    }
+                } else {
+                    throw new Error(result.message);
+                }
+            } catch (err) {
+                btn.innerText = originalText;
+                btn.style.opacity = 1;
+                errorMsg.innerText = "Invalid Access Key.";
+                errorMsg.style.display = 'block';
+                keyInput.style.borderColor = '#ef4444';
+                keyInput.value = '';
+                keyInput.focus();
+            }
+        });
+    </script>
+</body>
+
+</html>

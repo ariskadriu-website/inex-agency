@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - iNEX Agency</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-layout {
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: 20px;
+        }
+
+        .client-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 24px;
+        }
+
+        .client-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .client-card:hover {
+            border-color: var(--color-primary);
+            transform: translateY(-4px);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .status-ontrack {
+            background: rgba(34, 197, 94, 0.2);
+            color: #4ade80;
+        }
+
+        .status-delayed {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .status-completed {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1000;
+            /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.6);
+            /* Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: var(--color-surface);
+            margin: auto;
+            padding: 30px;
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .close-modal {
+            color: var(--color-text);
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-modal:hover,
+        .close-modal:focus {
+            color: var(--color-primary);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            background-color: #ffffff;
+            /* Light background for inputs as requested */
+            color: #000000;
+            /* Black text */
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 2px rgba(234, 179, 8, 0.2);
+        }
+    </style>
+</head>
+
+<body class="bg-noise">
+    <!-- Auth Check -->
+    <script>
+        const token = localStorage.getItem('inex_client_token');
+        const ADMIN_KEYS = ["INEX-ARISIADMIN", "INEX-JONIADMIN"]; // Keep synchronized with server for quick frontend check
+        if (!ADMIN_KEYS.includes(token)) {
+            window.location.href = 'login.html';
+        }
+    </script>
+
+    <div class="admin-layout">
+        <header class="admin-header">
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <img src="assets/images/logo-inex-transparent.png" alt="iNEX Logo" style="height: 40px;">
+                <h1 style="font-size: 1.5rem; margin: 0;">Admin Control Center</h1>
+            </div>
+            <div style="display: flex; gap: 16px;">
+                <button class="btn btn-primary" onclick="openAddModal()">+ Add New Project</button>
+                <button id="logout-btn" class="btn btn-secondary" style="border-color: #ef4444; color: #ef4444;">Logout
+                    Admin</button>
+            </div>
+        </header>
+
+        <main>
+            <div style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center;">
+                <h2 style="font-size: 1.25rem; margin: 0;">Active Projects</h2>
+                <div style="font-size: 0.9rem; opacity: 0.6;">Managing <span id="project-count">0</span> Clients</div>
+            </div>
+
+            <div id="clients-container" class="client-grid">
+                <!-- Clients Injected Here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Add/Edit Project Modal -->
+    <div id="project-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title" style="margin-bottom: 24px;">Add New Project</h2>
+            <form id="project-form">
+                <input type="hidden" id="edit-mode-key">
+
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; margin-bottom: 8px; font-size: 0.9rem;">Access Key (Unique)</label>
+                    <input type="text" id="p-key" class="form-input" placeholder="e.g. PROJECT-X" required>
+                </div>
+
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; margin-bottom: 8px; font-size: 0.9rem;">Project Name</label>
+                    <input type="text" id="p-name" class="form-input" placeholder="e.g. Project Alpha" required>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-size: 0.9rem;">Current Phase</label>
+                        <select id="p-phase" class="form-input">
+                            <option>Discovery</option>
+                            <option>Design</option>
+                            <option>Development</option>
+                            <option>Testing</option>
+                            <option>Final QA</option>
+                            <option>Launched</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-size: 0.9rem;">Status</label>
+                        <select id="p-status" class="form-input">
+                            <option>On Track</option>
+                            <option>Delayed</option>
+                            <option>Completed</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 24px;">
+                    <label style="display: block; margin-bottom: 8px; font-size: 0.9rem;">Next Milestone & Date</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <input type="text" id="p-milestone" class="form-input" placeholder="e.g. Beta Launch" required>
+                        <input type="date" id="p-date" class="form-input" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Save Project</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // RENDER DASHBOARD
+        async function fetchProjects() {
+            const token = localStorage.getItem('inex_client_token');
+            try {
+                const response = await fetch('/api/projects', {
+                    headers: { 'Authorization': token }
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    window.CLIENT_DB = result.data; // Store globally for render
+                    renderDashboard(result.data);
+                } else {
+                    alert("Session Expired");
+                    window.location.href = 'login.html';
+                }
+            } catch (e) {
+                console.error("API Error", e);
+            }
+        }
+
+        function renderDashboard(db) {
+            const container = document.getElementById('clients-container');
+            container.innerHTML = ''; // Clear
+            let count = 0;
+
+            for (const [key, data] of Object.entries(db)) {
+                count++;
+
+                // Determine Status Color
+                let statusClass = 'status-ontrack';
+                if (data.status === 'Delayed') statusClass = 'status-delayed';
+                if (data.status === 'Completed') statusClass = 'status-completed';
+
+                // Calculate Progress (mock check)
+                const totalSteps = data.timeline ? data.timeline.length : 4;
+                const completedSteps = data.timeline ? data.timeline.filter(t => t.completed).length : 0;
+                const progress = totalSteps > 0 ? Math.round((completedSteps / totalSteps) * 100) : 0;
+
+                const cardHTML = `
+                    <div class="client-card">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <span class="status-badge ${statusClass}">${data.status}</span>
+                            <span style="font-family: monospace; font-size: 0.8rem; opacity: 0.5;">${key}</span>
+                        </div>
+                        <h3 style="font-size: 1.25rem; margin-bottom: 8px;">${data.name}</h3>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.9rem; opacity: 0.7; margin-bottom: 16px;">
+                            <span>${data.phase}</span>
+                            <span>${progress}% Done</span>
+                        </div>
+                        
+                        <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-bottom: 20px; overflow: hidden;">
+                            <div style="width: ${progress}%; height: 100%; background: var(--color-primary);"></div>
+                        </div>
+
+                        <div style="border-top: 1px solid var(--color-border); padding-top: 16px; display: flex; gap: 12px;">
+                            <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.8rem; width: 100%;" onclick="openEditModal('${key}')">Edit Details</button>
+                            <button class="btn btn-primary" style="padding: 8px 16px; font-size: 0.8rem; width: 100%;" onclick="simulateLogin('${key}')">View as Client</button>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', cardHTML);
+            }
+            document.getElementById('project-count').innerText = count;
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchProjects);
+
+        // MODAL LOGIC
+        const modal = document.getElementById('project-modal');
+        const form = document.getElementById('project-form');
+
+        function openAddModal() {
+            document.getElementById('modal-title').innerText = "Add New Project";
+            document.getElementById('edit-mode-key').value = "";
+            document.getElementById('p-key').disabled = false;
+            form.reset();
+            modal.style.display = "flex";
+        }
+
+        function openEditModal(key) {
+            const data = window.CLIENT_DB[key];
+            if (!data) return;
+
+            document.getElementById('modal-title').innerText = "Edit Project";
+            document.getElementById('edit-mode-key').value = key;
+            document.getElementById('p-key').value = key;
+            document.getElementById('p-key').disabled = true; // Cannot change key
+
+            document.getElementById('p-name').value = data.name;
+            document.getElementById('p-phase').value = data.phase;
+            document.getElementById('p-status').value = data.status;
+            document.getElementById('p-milestone').value = data.milestone;
+            document.getElementById('p-date').value = data.milestoneDate;
+
+            modal.style.display = "flex";
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        // SAVE LOGIC (API)
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const editKey = document.getElementById('edit-mode-key').value;
+            const key = document.getElementById('p-key').value.trim().toUpperCase();
+
+            // Basic data structure (simplified for demo UI)
+            const newData = {
+                name: document.getElementById('p-name').value,
+                phase: document.getElementById('p-phase').value,
+                status: document.getElementById('p-status').value,
+                milestone: document.getElementById('p-milestone').value,
+                milestoneDate: document.getElementById('p-date').value,
+                // Preserve timeline/invoices if editing, or add defaults if new
+                timeline: editKey && window.CLIENT_DB[editKey] ? window.CLIENT_DB[editKey].timeline : [
+                    { title: "Discovery", date: "Upcoming", completed: false },
+                    { title: "Design", date: "Upcoming", completed: false },
+                    { title: "Development", date: "Upcoming", completed: false },
+                    { title: "Launch", date: "Upcoming", completed: false }
+                ],
+                invoices: editKey && window.CLIENT_DB[editKey] ? window.CLIENT_DB[editKey].invoices : []
+            };
+
+            // API CALL
+            try {
+                const token = localStorage.getItem('inex_client_token');
+                const response = await fetch('/api/admin/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': token
+                    },
+                    body: JSON.stringify({ key, data: newData })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert(editKey ? "Project Updated!" : "Project Added!");
+                    closeModal();
+                    fetchProjects(); // Refresh
+                } else {
+                    alert("Error saving: " + result.message);
+                }
+            } catch (err) {
+                alert("Server Connection Failed");
+            }
+        });
+
+        // VIEW AS CLIENT
+        function simulateLogin(key) {
+            if (confirm('Switch to view this dashboard as the client? You will need to logout to return to Admin.')) {
+                localStorage.setItem('inex_client_token', key);
+                window.location.href = 'dashboard.html';
+            }
+        }
+
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            localStorage.removeItem('inex_client_token');
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+
+</html>

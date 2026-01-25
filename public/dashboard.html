@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Dashboard - iNEX Agency</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .dashboard-layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            min-height: 100vh;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+        }
+
+        .sidebar {
+            background: rgba(0, 0, 0, 0.2);
+            border-right: 1px solid var(--color-border);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: var(--color-text);
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            transition: all 0.2s ease;
+            opacity: 0.7;
+        }
+
+        .sidebar-link:hover,
+        .sidebar-link.active {
+            background: rgba(255, 255, 255, 0.05);
+            opacity: 1;
+            color: var(--color-primary);
+        }
+
+        .dashboard-content {
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--color-border);
+            padding: 24px;
+            border-radius: 12px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 24px;
+            border-left: 2px solid var(--color-border);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--color-text);
+        }
+
+        .timeline-item.completed {
+            border-left-color: var(--color-primary);
+        }
+
+        .timeline-item.completed::before {
+            background: var(--color-primary);
+            box-shadow: 0 0 10px var(--color-primary);
+        }
+
+        .invoice-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid var(--color-border);
+            transition: background 0.2s;
+        }
+
+        .invoice-row:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: rgba(34, 197, 94, 0.2);
+            color: #4ade80;
+        }
+
+        .badge-pending {
+            background: rgba(234, 179, 8, 0.2);
+            color: #facc15;
+        }
+    </style>
+</head>
+
+<body class="bg-noise">
+    <!-- Auth Check -->
+    <script>
+        if (!localStorage.getItem('inex_client_token')) {
+            window.location.href = 'login.html';
+        }
+    </script>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <a href="index.html" class="logo" style="margin-bottom: 40px;">
+                <img src="assets/images/logo-inex-transparent.png" alt="iNEX Logo" class="logo-img"
+                    style="height: 40px;">
+            </a>
+
+            <nav style="flex: 1;">
+                <!-- Sidebar Links Removed as requested -->
+                <a href="#" class="sidebar-link active">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    Overview
+                </a>
+                <!-- Settings Removed for Client -->
+
+            </nav>
+
+            <button id="logout-btn"
+                style="background: none; border: none; color: #ef4444; display: flex; align-items: center; gap: 12px; cursor: pointer; padding: 12px 16px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                Logout
+            </button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-content">
+            <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+                <div>
+                    <h1 class="text-gradient" style="font-size: 2rem;">Welcome, Aris.</h1>
+                    <p style="opacity: 0.6;">Here is what’s happening with your project.</p>
+                </div>
+                <div style="display: flex; gap: 16px;">
+                    <button class="btn btn-secondary" onclick="window.location.href='support.html'">Secure
+                        Support</button>
+                    <!-- New Request Removed for Client -->
+                </div>
+            </header>
+
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-bottom: 40px;">
+                <div class="stat-card">
+                    <h3 style="font-size: 0.9rem; opacity: 0.6; margin-bottom: 8px;">Project Phase</h3>
+                    <div style="font-size: 1.5rem; font-weight: 700;">Development</div>
+                    <div style="color: var(--color-primary); font-size: 0.8rem; margin-top: 4px;">On Track</div>
+                </div>
+                <div class="stat-card">
+                    <h3 style="font-size: 0.9rem; opacity: 0.6; margin-bottom: 8px;">Next Milestone</h3>
+                    <div style="font-size: 1.5rem; font-weight: 700;">Beta Launch</div>
+                    <div style="opacity: 0.5; font-size: 0.8rem; margin-top: 4px;">Due: Feb 12, 2026</div>
+                </div>
+                <div class="stat-card">
+                    <h3 style="font-size: 0.9rem; opacity: 0.6; margin-bottom: 8px;">Open Invoices</h3>
+                    <div style="font-size: 1.5rem; font-weight: 700;">€0.00</div>
+                    <div style="color: #4ade80; font-size: 0.8rem; margin-top: 4px;">All Paid</div>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+                <!-- Timeline -->
+                <div class="stat-card">
+                    <h2 style="margin-bottom: 24px;">Project Timeline</h2>
+                    <div class="timeline-item completed">
+                        <h4 style="margin: 0;">Discovery & Strategy</h4>
+                        <p style="font-size: 0.9rem; opacity: 0.6; margin: 4px 0 0 0;">Jan 10 - Jan 15</p>
+                    </div>
+                    <div class="timeline-item completed">
+                        <h4 style="margin: 0;">UI/UX Design</h4>
+                        <p style="font-size: 0.9rem; opacity: 0.6; margin: 4px 0 0 0;">Jan 16 - Jan 22</p>
+                    </div>
+                    <div class="timeline-item completed">
+                        <h4 style="margin: 0;">Frontend Development</h4>
+                        <p style="font-size: 0.9rem; opacity: 0.6; margin: 4px 0 0 0;">In Progress</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4 style="margin: 0; opacity: 0.5;">CMS Integration</h4>
+                        <p style="font-size: 0.9rem; opacity: 0.4; margin: 4px 0 0 0;">Upcoming</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4 style="margin: 0; opacity: 0.5;">Final QA & Launch</h4>
+                        <p style="font-size: 0.9rem; opacity: 0.4; margin: 4px 0 0 0;">Feb 15</p>
+                    </div>
+                </div>
+
+                <!-- Recent Invoices -->
+                <div class="stat-card">
+                    <h2 style="margin-bottom: 24px;">Invoices</h2>
+                    <div class="invoice-row">
+                        <div>
+                            <div style="font-weight: 600;">INV-2024-001</div>
+                            <div style="font-size: 0.8rem; opacity: 0.6;">Jan 10, 2026</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-weight: 600;">€2,500</div>
+                            <span class="badge badge-success">Paid</span>
+                        </div>
+                    </div>
+                    <div class="invoice-row">
+                        <div>
+                            <div style="font-weight: 600;">INV-2024-002</div>
+                            <div style="font-size: 0.8rem; opacity: 0.6;">Jan 24, 2026</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-weight: 600;">€2,500</div>
+                            <span class="badge badge-success">Paid</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px; text-align: center;">
+                        <button class="btn btn-secondary" style="width: 100%; font-size: 0.9rem;">Download All</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- API Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // 1. Get Token
+            const token = localStorage.getItem('inex_client_token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // 2. Fetch Data from API
+            try {
+                const response = await fetch('/api/projects', {
+                    headers: { 'Authorization': token }
+                });
+                const result = await response.json();
+
+                if (!result.success) {
+                    console.error(result.message);
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                // Redirect Admin if accidentally here
+                if (result.role === 'admin') {
+                    window.location.href = 'admin.html';
+                    return;
+                }
+
+                const data = result.data;
+
+                // 4. Update UI Elements
+
+                // Header
+                document.querySelector('h1.text-gradient').textContent = `Welcome, ${data.name}.`;
+
+                // Stats Row
+                const stats = document.querySelectorAll('.stat-card');
+                // Phase
+                stats[0].querySelector('div:nth-child(2)').textContent = data.phase;
+                stats[0].querySelector('div:nth-child(3)').textContent = data.status;
+
+                // Milestone
+                stats[1].querySelector('div:nth-child(2)').textContent = data.milestone;
+                stats[1].querySelector('div:nth-child(3)').textContent = `Due: ${data.milestoneDate}`;
+
+                // Invoices Summary (Simple calculation)
+                const unpaidTotal = data.invoices.filter(inv => inv.status !== 'Paid').reduce((acc, curr) => acc + parseInt(curr.amount.replace(/[^0-9]/g, '')), 0);
+                stats[2].querySelector('div:nth-child(2)').textContent = `€${unpaidTotal}`;
+                stats[2].querySelector('div:nth-child(3)').innerHTML = unpaidTotal === 0 ? '<span style="color:#4ade80">All Paid</span>' : '<span style="color:#facc15">Pending</span>';
+
+                // Timeline Generation
+                const timelineCard = Array.from(document.querySelectorAll('.stat-card')).find(el => el.querySelector('h2')?.textContent.includes('Timeline'));
+
+                if (timelineCard) {
+                    let timelineHTML = '<h2 style="margin-bottom: 24px;">Project Timeline</h2>';
+                    data.timeline.forEach(item => {
+                        const statusClass = item.completed ? 'completed' : '';
+                        const opacity = item.completed ? '1' : '0.5';
+                        timelineHTML += `
+                            <div class="timeline-item ${statusClass}">
+                                <h4 style="margin: 0; opacity: ${opacity};">${item.title}</h4>
+                                <p style="font-size: 0.9rem; opacity: 0.6; margin: 4px 0 0 0;">${item.date}</p>
+                            </div>
+                        `;
+                    });
+                    timelineCard.innerHTML = timelineHTML;
+                }
+
+                // Invoices List
+                const invoicesCard = Array.from(document.querySelectorAll('.stat-card')).find(el => el.querySelector('h2')?.textContent.includes('Invoices'));
+                if (invoicesCard) {
+                    let invoiceHTML = '<h2 style="margin-bottom: 24px;">Invoices</h2>';
+                    data.invoices.forEach(inv => {
+                        const badgeClass = inv.status === 'Paid' ? 'badge-success' : 'badge-pending';
+                        invoiceHTML += `
+                            <div class="invoice-row">
+                                <div>
+                                    <div style="font-weight: 600;">${inv.id}</div>
+                                    <div style="font-size: 0.8rem; opacity: 0.6;">${inv.date}</div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-weight: 600;">${inv.amount}</div>
+                                    <span class="badge ${badgeClass}">${inv.status}</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    invoiceHTML += `
+                        <div style="margin-top: 20px; text-align: center;">
+                            <button class="btn btn-secondary" style="width: 100%; font-size: 0.9rem;">Download All</button>
+                        </div>
+                    `;
+                    invoicesCard.innerHTML = invoiceHTML;
+                }
+
+            } catch (err) {
+                console.error("API Connection Failed", err);
+            }
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            localStorage.removeItem('inex_client_token');
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+
+</html>

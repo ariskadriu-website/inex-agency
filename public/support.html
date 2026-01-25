@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Support - iNEX</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-noise">
+    <div class="container section">
+        <h1 class="text-gradient">Secure Support Line</h1>
+        <p>Direct encrypted line to your Project Manager.</p>
+
+        <div
+            style="background: var(--color-surface); padding: 24px; border-radius: 12px; border: 1px solid var(--color-border); margin-top: 40px; height: 400px; display: flex; flex-direction: column;">
+            <div id="chat-window" style="flex: 1; overflow-y: auto; margin-bottom: 20px; padding: 10px;">
+                <!-- Messages -->
+                <div style="margin-bottom: 12px; color: var(--color-primary);">System: Connected to Secure Server.</div>
+            </div>
+            <form id="chat-form" style="display: flex; gap: 10px;">
+                <input type="text" id="chat-input" class="form-input" placeholder="Type your request securely..."
+                    required
+                    style="background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--color-border);">
+                <button type="submit" class="btn btn-primary">Send</button>
+            </form>
+        </div>
+
+        <button onclick="window.location.href='dashboard.html'" class="btn btn-text" style="margin-top: 20px;">&larr;
+            Back to Dashboard</button>
+    </div>
+
+    <script>
+        document.getElementById('chat-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('chat-input');
+            const msg = input.value;
+            const token = localStorage.getItem('inex_client_token');
+
+            // UI Optimistic Update
+            const chat = document.getElementById('chat-window');
+            chat.innerHTML += `<div style="margin-bottom: 8px; text-align: right;"><span style="background: var(--color-primary); color: black; padding: 6px 12px; border-radius: 12px; display: inline-block;">${msg}</span></div>`;
+            input.value = '';
+            chat.scrollTop = chat.scrollHeight;
+
+            // Send to Backend
+            try {
+                await fetch('/api/support', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token, message: msg })
+                });
+            } catch (err) {
+                alert("Connection Error");
+            }
+        });
+    </script>
+</body>
+
+</html>

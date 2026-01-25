@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | iNEX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <header class="header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <img src="assets/images/logo-inex-transparent.png" alt="iNEX Logo" class="logo-img">
+            </a>
+            <nav class="nav-links">
+                <a href="index.html" data-i18n="home">Home</a>
+                <a href="services.html" data-i18n="services">Services</a>
+                <a href="about.html" data-i18n="nav_about">About</a>
+                <a href="contact.html" data-i18n="contact">Contact</a>
+            </nav>
+            <div style="display: flex; gap: 24px; align-items: center;">
+                <!-- Theme Toggle -->
+                <button id="theme-toggle"
+                    style="background:none; border:none; cursor:pointer; color:var(--color-text); display:flex; align-items:center; opacity:0.8;">
+                    <svg id="theme-icon" viewBox="0 0 24 24"
+                        style="width:20px; height:20px; stroke: currentColor; fill:none; stroke-width:2;">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+
+                <div
+                    style="font-size: 0.85rem; cursor: pointer; display: flex; gap: 8px; font-weight: 600; opacity: 0.7;">
+                    <span class="lang-btn" data-lang="en">EN</span> | <span class="lang-btn" data-lang="sq">SQ</span> |
+                    <span class="lang-btn" data-lang="de">DE</span>
+                </div>
+                <a href="login.html"
+                    style="background:none; border:none; color:inherit; font-weight:600; font-size:0.9rem; cursor:pointer; opacity:0.8; text-decoration: none;"
+                    data-i18n="client_login">Client Login</a>
+                <a href="contact.html" id="book-call-btn" class="btn btn-primary" data-i18n="cta">Get Started</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="section" style="padding-top: 150px;">
+        <div class="container">
+            <h1 class="text-gradient" style="text-align: center; margin-bottom: 60px;" data-i18n="contact_title">Start
+                Your Project</h1>
+            <div
+                style="max-width: 600px; margin: 0 auto; background: var(--color-surface); padding: 48px; border-radius: 4px; border: 1px solid var(--color-border);">
+                <form id="contact-form" action="https://formspree.io/f/mgokwral" method="POST"
+                    style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 500;" data-i18n="form_name">Full
+                            Name</label>
+                        <input type="text" name="name" class="form-input" data-i18n-placeholder="form_name_ph"
+                            placeholder="John Doe" required>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 500;"
+                            data-i18n="form_email">Email
+                            Address</label>
+                        <input type="email" name="email" class="form-input" data-i18n-placeholder="form_email_ph"
+                            placeholder="john@company.com" required>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 500;"
+                            data-i18n="form_biz">Business
+                            Name</label>
+                        <input type="text" name="business" class="form-input" data-i18n-placeholder="form_biz_ph"
+                            placeholder="Company Ltd.">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 500;"
+                            data-i18n="form_msg">Message</label>
+                        <textarea name="message" class="form-textarea" rows="5" data-i18n-placeholder="form_msg_ph"
+                            placeholder="Tell us about your project..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" data-i18n="form_btn">Send Message</button>
+                    <p id="form-status" style="margin-top: 10px; display: none;"></p>
+                </form>
+            </div>
+
+            <div style="text-align: center; margin-top: 80px;">
+
+                <div class="fade-up" style="max-width: 600px; margin: 0 auto 60px auto;">
+                    <h2 class="text-gradient" style="margin-bottom: 16px;" data-i18n="visit_title">Visit Our Studio</h2>
+                    <p style="opacity: 0.8; line-height: 1.8;" data-i18n="visit_desc">
+                        While we work globally, our heart beats in Prishtina. Our studio is open for coffee and code
+                        sessions every Friday. Stop by to see how we build the future.
+                    </p>
+                    <p style="opacity: 0.6; margin-top: 16px; font-size: 0.9rem;" data-i18n="visit_addr">
+                        Rruga B, Prishtina 10000, Kosovo <br>
+                        (Strictly by appointment on other days)
+                    </p>
+                </div>
+
+                <p style="opacity: 0.7; margin-bottom: 32px; font-size: 1.1rem;" data-i18n="reach_out">Or reach out
+                    directly:</p>
+
+                <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 40px;">
+                    <div style="display: flex; align-items: center; gap: 12px; font-size: 1.1rem;">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                            </path>
+                        </svg>
+                        <a href="tel:+38349123456" style="font-weight: 600;">+383 49 123 456</a>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 12px; font-size: 1.1rem;">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                            </path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        <a href="mailto:inex.agency@gmail.com" style="font-weight: 600;">inex.webagency@gmail.com</a>
+                    </div>
+                </div>
+
+                <!-- Feature 9: Map Link -->
+                <a href="https://maps.google.com/?q=Prishtina" target="_blank" class="map-link fade-up">
+                    <span data-i18n="locate_btn">📍 Locate Us in Prishtina</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid" style="margin-bottom: 30px;">
+                <!-- Left: Logo -->
+                <div style="text-align: left;">
+                    <a href="index.html" class="logo" style="margin-bottom: 8px; display: inline-block;">
+                        <img src="assets/images/logo-inex-transparent.png" alt="iNEX Logo" class="footer-logo">
+                    </a>
+                </div>
+
+                <!-- Center: Time & Status -->
+                <div style="text-align: center; font-size: 0.9rem; opacity: 0.6;">
+                    <span id="prishtina-time">--:--</span> in Prishtina • We are Online
+                </div>
+
+                <!-- Right: Socials -->
+                <div
+                    style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; justify-content: center;">
+                    <div class="social-links" style="margin: 0;">
+                        <a href="https://www.facebook.com/profile.php?id=61586909169851" target="_blank"
+                            class="social-link" aria-label="Facebook">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/inexagency/" target="_blank" class="social-link"
+                            aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom: Copyright -->
+            <div
+                style="text-align: center; border-top: 1px solid var(--color-border); padding-top: 20px; font-size: 0.8rem; opacity: 0.5;">
+                <p style="margin: 0;" data-i18n="footer_rights">&copy; 2026 iNEX Agency. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="back-to-top" class="back-to-top">
+        <svg viewBox="0 0 24 24">
+            <path d="M18 15l-6-6-6 6"></path>
+        </svg>
+    </div>
+
+    <script src="translations.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
