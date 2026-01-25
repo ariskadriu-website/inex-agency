@@ -31,23 +31,33 @@
                 <a href="services.html" data-i18n="services">Services</a>
                 <a href="about.html" data-i18n="nav_about">About</a>
                 <a href="contact.html" data-i18n="contact">Contact</a>
+
+                <!-- Mobile Only Extras -->
+                <div class="mobile-menu-extras">
+                    <div style="display: flex; gap: 16px; align-items: center;">
+                        <button class="theme-toggle-btn"
+                            style="background:none; border:none; cursor:pointer; color:var(--color-text); display:flex; align-items:center;">
+                            <svg class="theme-icon-svg" viewBox="0 0 24 24"
+                                style="width:24px; height:24px; stroke: currentColor; fill:none; stroke-width:2;">
+                                <!-- Icon injected by JS -->
+                            </svg>
+                        </button>
+                        <div style="font-size: 1rem; cursor: pointer; display: flex; gap: 12px; font-weight: 600;">
+                            <span class="lang-btn" data-lang="en">EN</span> | <span class="lang-btn"
+                                data-lang="sq">SQ</span> | <span class="lang-btn" data-lang="de">DE</span>
+                        </div>
+                    </div>
+                    <a href="login.html" style="font-weight:600; font-size:1.1rem; text-decoration: none;"
+                        data-i18n="client_login">Client Login</a>
+                </div>
             </nav>
             <div style="display: flex; gap: 24px; align-items: center;">
-                <!-- Theme Toggle -->
-                <button id="theme-toggle"
+                <!-- Desktop Theme Toggle -->
+                <button class="theme-toggle-btn" id="theme-toggle"
                     style="background:none; border:none; cursor:pointer; color:var(--color-text); display:flex; align-items:center; opacity:0.8;">
-                    <!-- Sun Icon (Default hidden via JS if dark) -->
-                    <svg id="theme-icon" viewBox="0 0 24 24"
+                    <svg class="theme-icon-svg" id="theme-icon" viewBox="0 0 24 24"
                         style="width:20px; height:20px; stroke: currentColor; fill:none; stroke-width:2;">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        <!-- Icon injected by JS -->
                     </svg>
                 </button>
 

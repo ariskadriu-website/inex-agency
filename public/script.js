@@ -5,8 +5,9 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- Theme Handling ---
-    const themeToggle = document.getElementById('theme-toggle');
-    const themeIcon = document.getElementById('theme-icon');
+    // Use generic class for toggle buttons (Desktop & Mobile)
+    const themeToggles = document.querySelectorAll('.theme-toggle-btn');
+    const themeIcons = document.querySelectorAll('.theme-icon-svg'); // Update all icons
 
     // Icons
     const sunIcon = `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`;
@@ -15,9 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function setTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
         localStorage.setItem('inex_theme', theme);
-        if (themeIcon) {
-            themeIcon.innerHTML = theme === 'dark' ? moonIcon : sunIcon;
-        }
+        // Update ALL icons on page
+        themeIcons.forEach(icon => {
+            icon.innerHTML = theme === 'dark' ? moonIcon : sunIcon;
+        });
     }
 
     // Init Theme
@@ -26,12 +28,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentTheme = savedTheme || (systemDark ? 'dark' : 'light');
     setTheme(currentTheme);
 
-    if (themeToggle) {
-        themeToggle.addEventListener('click', () => {
+    themeToggles.forEach(btn => {
+        btn.addEventListener('click', () => {
             currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
             setTheme(currentTheme);
         });
-    }
+    });
 
     // --- Dynamic Greeting ---
     const heroTitle = document.getElementById('dynamic-hero-title');
