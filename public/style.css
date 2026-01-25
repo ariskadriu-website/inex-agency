@@ -409,6 +409,8 @@ h3 {
     min-height: 100vh;
     display: flex;
     align-items: center;
+    justify-content: center;
+    /* Centering Fix */
     position: relative;
     padding-top: var(--header-height);
     overflow: hidden;
