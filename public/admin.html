@@ -404,18 +404,24 @@
         }
 
         function addInvoiceItem() {
-            const amount = document.getElementById('new-inv-amount').value;
-            const date = document.getElementById('new-inv-date').value;
+            const amountInput = document.getElementById('new-inv-amount').value;
             const status = document.getElementById('new-inv-status').value;
 
-            if (amount && date) {
+            if (amountInput) {
                 const id = "INV-" + Math.floor(1000 + Math.random() * 9000); // Simple ID gen
+
+                // Auto-generate Date
+                const now = new Date();
+                const date = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+                // Enforce Euro
+                const amount = "€" + parseFloat(amountInput).toFixed(2);
+
                 currentInvoices.push({ id, amount, date, status });
                 renderInvoiceList();
 
                 // Clear inputs
                 document.getElementById('new-inv-amount').value = "";
-                document.getElementById('new-inv-date').value = "";
             }
         }
 
