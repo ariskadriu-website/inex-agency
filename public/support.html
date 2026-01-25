@@ -32,15 +32,65 @@
     </div>
 
     <script>
+        // INIT CHAT
+        document.addEventListener('DOMContentLoaded', async () => {
+            const token = localStorage.getItem('inex_client_token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/projects', {
+                    headers: { 'Authorization': token }
+                });
+                const result = await response.json();
+
+                if (result.success && result.data && result.data.messages) {
+                    renderMessages(result.data.messages);
+                }
+            } catch (err) {
+                console.error("Failed to load chat history", err);
+            }
+        });
+
+        function renderMessages(messages) {
+            const chat = document.getElementById('chat-window');
+            // Keep system welcome message
+            chat.innerHTML = '<div style="margin-bottom: 24px; text-align: center; opacity: 0.5; font-size: 0.8rem;">--- Conversation Started ---</div>';
+
+            messages.forEach(m => {
+                const isClient = m.sender === "Client";
+                const align = isClient ? "right" : "left";
+                const bg = isClient ? "var(--color-primary)" : "rgba(255,255,255,0.1)";
+                const color = isClient ? "black" : "var(--color-text)";
+
+                chat.innerHTML += `
+                    <div style="margin-bottom: 8px; text-align: ${align};">
+                        <div style="font-size:0.75rem; opacity:0.6; margin-bottom: 4px;">${m.sender}</div>
+                        <span style="background: ${bg}; color: ${color}; padding: 8px 14px; border-radius: 12px; display: inline-block;">
+                            ${m.text}
+                        </span>
+                    </div>`;
+            });
+            chat.scrollTop = chat.scrollHeight;
+        }
+
         document.getElementById('chat-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const input = document.getElementById('chat-input');
             const msg = input.value;
             const token = localStorage.getItem('inex_client_token');
 
+            if (!msg.trim()) return;
+
             // UI Optimistic Update
             const chat = document.getElementById('chat-window');
-            chat.innerHTML += `<div style="margin-bottom: 8px; text-align: right;"><span style="background: var(--color-primary); color: black; padding: 6px 12px; border-radius: 12px; display: inline-block;">${msg}</span></div>`;
+            chat.innerHTML += `
+                <div style="margin-bottom: 8px; text-align: right;">
+                     <div style="font-size:0.75rem; opacity:0.6; margin-bottom: 4px;">Client</div>
+                    <span style="background: var(--color-primary); color: black; padding: 8px 14px; border-radius: 12px; display: inline-block;">${msg}</span>
+                </div>`;
             input.value = '';
             chat.scrollTop = chat.scrollHeight;
 
