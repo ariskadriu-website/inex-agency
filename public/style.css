@@ -1036,4 +1036,10 @@ body.nav-open .mobile-nav-toggle span:nth-child(3) {
         margin: 20px auto;
         padding: 20px;
     }
+
+    /* Hide Custom Cursor on Mobile */
+    .cursor-dot,
+    .cursor-outline {
+        display: none !important;
+    }
 }
