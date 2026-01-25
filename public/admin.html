@@ -230,6 +230,25 @@
         </div>
     </div>
 
+    <!-- Message Modal -->
+    <div id="msg-modal" class="modal">
+        <div class="modal-content" style="height: 500px; display: flex; flex-direction: column;">
+            <span class="close-modal" onclick="closeMsgModal()">&times;</span>
+            <h2 id="msg-title" style="margin-bottom: 24px;">Client Messages</h2>
+
+            <div id="msg-history"
+                style="flex: 1; overflow-y: auto; background: rgba(0,0,0,0.02); border: 1px solid var(--color-border); border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+                <!-- Msgs injected here -->
+            </div>
+
+            <form id="msg-form" style="display: flex; gap: 8px;">
+                <input type="hidden" id="msg-target-key">
+                <input type="text" id="msg-input" class="form-input" placeholder="Type reply as Admin..." required>
+                <button type="submit" class="btn btn-primary">Send</button>
+            </form>
+        </div>
+    </div>
+
     <script>
         // RENDER DASHBOARD
         async function fetchProjects() {
@@ -288,6 +307,7 @@
 
                         <div style="border-top: 1px solid var(--color-border); padding-top: 16px; display: flex; gap: 12px;">
                             <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.8rem; width: 100%;" onclick="openEditModal('${key}')">Edit Details</button>
+                            <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.8rem; width: 100%; border-color: var(--color-primary);" onclick="openMsgModal('${key}')">Messages</button>
                             <button class="btn btn-primary" style="padding: 8px 16px; font-size: 0.8rem; width: 100%;" onclick="simulateLogin('${key}')">View as Client</button>
                         </div>
                     </div>
@@ -353,7 +373,8 @@
                     { title: "Development", date: "Upcoming", completed: false },
                     { title: "Launch", date: "Upcoming", completed: false }
                 ],
-                invoices: editKey && window.CLIENT_DB[editKey] ? window.CLIENT_DB[editKey].invoices : []
+                invoices: editKey && window.CLIENT_DB[editKey] ? window.CLIENT_DB[editKey].invoices : [],
+                messages: editKey && window.CLIENT_DB[editKey] ? window.CLIENT_DB[editKey].messages : []
             };
 
             // API CALL
@@ -392,6 +413,73 @@
         document.getElementById('logout-btn').addEventListener('click', () => {
             localStorage.removeItem('inex_client_token');
             window.location.href = 'index.html';
+        });
+
+        // --- MSG MODAL ---
+        const msgModal = document.getElementById('msg-modal');
+        function closeMsgModal() { msgModal.style.display = "none"; }
+
+        function openMsgModal(key) {
+            const data = window.CLIENT_DB[key];
+            if (!data) return;
+
+            document.getElementById('msg-target-key').value = key;
+            document.getElementById('msg-title').innerText = `Chat with ${data.name}`;
+
+            const history = document.getElementById('msg-history');
+            history.innerHTML = "";
+
+            if (data.messages && data.messages.length > 0) {
+                data.messages.forEach(m => {
+                    const isClient = m.sender === "Client";
+                    const align = isClient ? "left" : "right";
+                    const color = isClient ? "#e5e7eb" : "var(--color-primary)";
+                    const textColor = isClient ? "black" : "black";
+
+                    history.innerHTML += `
+                        <div style="text-align: ${align}; margin-bottom: 8px;">
+                            <div style="font-size:0.75rem; opacity:0.6;">${m.sender}</div>
+                            <span style="background: ${color}; color: ${textColor}; padding: 6px 12px; border-radius: 12px; display: inline-block;">
+                                ${m.text}
+                            </span>
+                        </div>
+                    `;
+                });
+            } else {
+                history.innerHTML = '<div style="text-align:center; opacity:0.5; margin-top:50px;">No messages yet.</div>';
+            }
+
+            msgModal.style.display = "flex";
+            // Scroll to bottom
+            history.scrollTop = history.scrollHeight;
+        }
+
+        document.getElementById('msg-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('msg-input');
+            const targetKey = document.getElementById('msg-target-key').value;
+            const msg = input.value;
+            const token = localStorage.getItem('inex_client_token'); // Admin Token
+
+            try {
+                const res = await fetch('/api/support', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token, message: msg, targetKey })
+                });
+                const result = await res.json();
+
+                if (result.success) {
+                    input.value = "";
+                    closeMsgModal();
+                    fetchProjects(); // Refresh DB to see new msg
+                    alert("Reply Sent!");
+                } else {
+                    alert("Error: " + result.message);
+                }
+            } catch (err) {
+                alert("Connection Failed");
+            }
         });
     </script>
 </body>

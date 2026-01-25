@@ -924,7 +924,77 @@ h3 {
 }
 
 /* Mobile Responsiveness Fixes */
+/* --- Mobile Navigation Toggle --- */
+.mobile-nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 10001;
+    padding: 10px;
+}
+
+.mobile-nav-toggle span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background-color: var(--color-text);
+    margin-bottom: 5px;
+    transition: all 0.3s ease;
+}
+
+/* Transform Hamburger to X when active */
+body.nav-open .mobile-nav-toggle span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+body.nav-open .mobile-nav-toggle span:nth-child(2) {
+    opacity: 0;
+}
+
+body.nav-open .mobile-nav-toggle span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+}
+
 @media (max-width: 768px) {
+
+    /* Navigation: Slide Out Menu */
+    .mobile-nav-toggle {
+        display: block;
+        /* Show hamburger */
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: 75%;
+        background-color: var(--color-bg);
+        border-left: 1px solid var(--color-border);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 32px;
+        transform: translateX(100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 10000;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-links.active {
+        transform: translateX(0);
+    }
+
+    .nav-links a {
+        font-size: 1.5rem;
+    }
+
+    /* Hide Language/Login in Header on Mobile for cleanliness */
+    .header-inner>div:last-child {
+        display: none !important;
+    }
 
     /* Dashboard: Stack Sidebar and Content */
     .app-layout {

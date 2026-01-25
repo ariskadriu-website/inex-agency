@@ -108,13 +108,29 @@ router.post('/admin/save', async (req, res) => {
 // 4. SUPPORT
 router.post('/support', async (req, res) => {
     await connectDB();
-    const { token, message } = req.body;
+    const { token, message, targetKey } = req.body; // Added targetKey for Admin replies
 
+    // Check if Admin
     if (ADMIN_KEYS.includes(token)) {
-        console.log("Admin sent message:", message);
-        return res.json({ success: true, message: 'Admin Message Logged' });
+        if (!targetKey) {
+            return res.status(400).json({ success: false, message: 'Target Key Required for Admin' });
+        }
+
+        const project = await Project.findOne({ key: targetKey });
+        if (project) {
+            project.messages.push({
+                sender: "iNEX Support", // Admin sender name
+                text: message,
+                date: new Date().toISOString()
+            });
+            await project.save();
+            return res.json({ success: true, message: 'Reply Sent' });
+        } else {
+            return res.status(404).json({ success: false, message: 'Project not found' });
+        }
     }
 
+    // Client Logic
     const project = await Project.findOne({ key: token });
     if (project) {
         project.messages.push({
