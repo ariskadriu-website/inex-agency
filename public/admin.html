@@ -225,7 +225,38 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Save Project</button>
+                <!-- Invoice Management Section -->
+                <div style="margin-bottom: 24px; padding-top: 24px; border-top: 1px solid var(--color-border);">
+                    <h3 style="margin-bottom: 16px; font-size: 1rem;">Invoices</h3>
+                    <div id="invoice-list"
+                        style="margin-bottom: 16px; display: flex; flex-direction: column; gap: 8px;">
+                        <!-- Invoices injected here -->
+                    </div>
+
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                        <div style="flex: 1;">
+                            <label style="font-size: 0.8rem;">Amount</label>
+                            <input type="text" id="new-inv-amount" class="form-input" placeholder="€0.00">
+                        </div>
+                        <div style="flex: 1;">
+                            <label style="font-size: 0.8rem;">Date</label>
+                            <input type="text" id="new-inv-date" class="form-input" placeholder="MMM DD, YYYY">
+                        </div>
+                        <div style="flex: 1;">
+                            <label style="font-size: 0.8rem;">Status</label>
+                            <select id="new-inv-status" class="form-input">
+                                <option value="Pending">Pending</option>
+                                <option value="Paid">Paid</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-secondary" onclick="addInvoiceItem()">Add</button>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 12px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Project</button>
+                </div>
             </form>
         </div>
     </div>
@@ -250,6 +281,9 @@
     </div>
 
     <script>
+        // GLOBAL DATA
+        let currentInvoices = [];
+
         // RENDER DASHBOARD
         async function fetchProjects() {
             const token = localStorage.getItem('inex_client_token');
@@ -306,7 +340,7 @@
                         </div>
 
                         <div style="border-top: 1px solid var(--color-border); padding-top: 16px; display: flex; gap: 12px;">
-                            <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.8rem; width: 100%;" onclick="openEditModal('${key}')">Edit Details</button>
+                            <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.8rem; width: 100%;" onclick="openEditModal('${key}')">Edit / Invoices</button>
                             <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.8rem; width: 100%; border-color: var(--color-primary);" onclick="openMsgModal('${key}')">Messages</button>
                             <button class="btn btn-primary" style="padding: 8px 16px; font-size: 0.8rem; width: 100%;" onclick="simulateLogin('${key}')">View as Client</button>
                         </div>
@@ -327,6 +361,8 @@
             document.getElementById('modal-title').innerText = "Add New Project";
             document.getElementById('edit-mode-key').value = "";
             document.getElementById('p-key').disabled = false;
+            currentInvoices = []; // Reset
+            renderInvoiceList();
             form.reset();
             modal.style.display = "flex";
         }
@@ -335,7 +371,7 @@
             const data = window.CLIENT_DB[key];
             if (!data) return;
 
-            document.getElementById('modal-title').innerText = "Edit Project";
+            document.getElementById('modal-title').innerText = "Edit Project & Invoices";
             document.getElementById('edit-mode-key').value = key;
             document.getElementById('p-key').value = key;
             document.getElementById('p-key').disabled = true; // Cannot change key
@@ -346,11 +382,50 @@
             document.getElementById('p-milestone').value = data.milestone;
             document.getElementById('p-date').value = data.milestoneDate;
 
+            // Load Invoices
+            currentInvoices = data.invoices || [];
+            renderInvoiceList();
+
             modal.style.display = "flex";
         }
 
         function closeModal() {
             modal.style.display = "none";
+        }
+
+        // INVOICE LOGIC
+        function renderInvoiceList() {
+            const list = document.getElementById('invoice-list');
+            list.innerHTML = '';
+            currentInvoices.forEach((inv, index) => {
+                list.innerHTML += `
+                    <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.05); padding: 8px; border-radius: 4px; border: 1px solid var(--color-border);">
+                        <span style="font-size: 0.9rem;">${inv.amount} - ${inv.date} (${inv.status})</span>
+                        <button type="button" onclick="removeInvoice(${index})" style="color: #ef4444; border: none; background: none; cursor: pointer; font-weight: bold;">✕</button>
+                    </div>
+                `;
+            });
+        }
+
+        function addInvoiceItem() {
+            const amount = document.getElementById('new-inv-amount').value;
+            const date = document.getElementById('new-inv-date').value;
+            const status = document.getElementById('new-inv-status').value;
+
+            if (amount && date) {
+                const id = "INV-" + Math.floor(1000 + Math.random() * 9000); // Simple ID gen
+                currentInvoices.push({ id, amount, date, status });
+                renderInvoiceList();
+
+                // Clear inputs
+                document.getElementById('new-inv-amount').value = "";
+                document.getElementById('new-inv-date').value = "";
+            }
+        }
+
+        function removeInvoice(index) {
+            currentInvoices.splice(index, 1);
+            renderInvoiceList();
         }
 
         // SAVE LOGIC (API)
@@ -366,15 +441,15 @@
                 status: document.getElementById('p-status').value,
                 milestone: document.getElementById('p-milestone').value,
                 milestoneDate: document.getElementById('p-date').value,
-                // Preserve timeline/invoices if editing, or add defaults if new
+                // Preserve timeline/messages from DB if editing, default if new
                 timeline: editKey && window.CLIENT_DB[editKey] ? window.CLIENT_DB[editKey].timeline : [
                     { title: "Discovery", date: "Upcoming", completed: false },
                     { title: "Design", date: "Upcoming", completed: false },
                     { title: "Development", date: "Upcoming", completed: false },
                     { title: "Launch", date: "Upcoming", completed: false }
                 ],
-                invoices: editKey && window.CLIENT_DB[editKey] ? window.CLIENT_DB[editKey].invoices : [],
-                messages: editKey && window.CLIENT_DB[editKey] ? window.CLIENT_DB[editKey].messages : []
+                messages: editKey && window.CLIENT_DB[editKey] ? window.CLIENT_DB[editKey].messages : [],
+                invoices: currentInvoices // SAVE INVOICES
             };
 
             // API CALL

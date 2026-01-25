@@ -11,6 +11,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
 
+    <!-- PDF Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 
@@ -337,15 +340,26 @@
                     let invoiceHTML = '<h2 style="margin-bottom: 24px;">Invoices</h2>';
                     data.invoices.forEach(inv => {
                         const badgeClass = inv.status === 'Paid' ? 'badge-success' : 'badge-pending';
+                        const safeInv = JSON.stringify(inv).replace(/"/g, '&quot;');
                         invoiceHTML += `
                             <div class="invoice-row">
                                 <div>
                                     <div style="font-weight: 600;">${inv.id}</div>
                                     <div style="font-size: 0.8rem; opacity: 0.6;">${inv.date}</div>
                                 </div>
-                                <div style="text-align: right;">
-                                    <div style="font-weight: 600;">${inv.amount}</div>
-                                    <span class="badge ${badgeClass}">${inv.status}</span>
+                                <div style="display: flex; gap: 12px; align-items: center;">
+                                    <div style="text-align: right;">
+                                        <div style="font-weight: 600;">${inv.amount}</div>
+                                        <span class="badge ${badgeClass}">${inv.status}</span>
+                                    </div>
+                                    <button onclick="downloadInvoice('${data.name}', '${safeInv}')" title="Download PDF" 
+                                        style="background:none; border:1px solid var(--color-border); color:var(--color-primary); width:32px; height:32px; border-radius:6px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="7 10 12 15 17 10"></polyline>
+                                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
                         `;
@@ -367,6 +381,83 @@
             localStorage.removeItem('inex_client_token');
             window.location.href = 'index.html';
         });
+
+        // PDF GENERATION
+        function downloadInvoice(clientName, invString) {
+            const inv = JSON.parse(invString);
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Colors
+            const black = "#000000";
+            const darkGrey = "#444444";
+            const primary = "#EAB308"; // iNEX Yellow
+
+            // Header
+            doc.setFillColor(10, 10, 10); // Dark BG
+            doc.rect(0, 0, 210, 40, 'F');
+
+            doc.setTextColor(primary);
+            doc.setFontSize(22);
+            doc.setFont("helvetica", "bold");
+            doc.text("iNEX AGENCY", 20, 25);
+
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "normal");
+            doc.text("INVOICE", 180, 25, { align: 'right' });
+
+            // Client & Project Info
+            doc.setTextColor(black);
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "bold");
+            doc.text("Bill To:", 20, 60);
+
+            doc.setFont("helvetica", "normal");
+            doc.text(clientName, 20, 68);
+            doc.text(`Invoice ID: ${inv.id}`, 20, 76);
+            doc.text(`Date: ${inv.date}`, 20, 84);
+
+            // Table Header
+            doc.setFillColor(245, 245, 245);
+            doc.rect(20, 100, 170, 10, 'F');
+            doc.setFont("helvetica", "bold");
+            doc.text("Description", 25, 107);
+            doc.text("Amount", 185, 107, { align: 'right' });
+
+            // Table Content
+            doc.setFont("helvetica", "normal");
+            doc.text("Professional Agency Services", 25, 120);
+            doc.text(inv.amount, 185, 120, { align: 'right' });
+
+            doc.setDrawColor(200, 200, 200);
+            doc.line(20, 125, 190, 125);
+
+            // Total
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(14);
+            doc.text(`Total: ${inv.amount}`, 185, 140, { align: 'right' });
+
+            // Status
+            doc.setFontSize(12);
+            if (inv.status === 'Paid') {
+                doc.setTextColor(34, 197, 94); // Green
+                doc.text("PAID", 185, 150, { align: 'right' });
+            } else {
+                doc.setTextColor(234, 179, 8); // Yellow
+                doc.text("PENDING", 185, 150, { align: 'right' });
+            }
+
+            // Footer
+            doc.setTextColor(150, 150, 150);
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "normal");
+            doc.text("Thank you for your business.", 105, 280, { align: 'center' });
+            doc.text("iNEX Agency | contact@inex.agency", 105, 285, { align: 'center' });
+
+            // Save
+            doc.save(`iNEX_Invoice_${inv.id}.pdf`);
+        }
     </script>
 </body>
 
