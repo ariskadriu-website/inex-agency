@@ -139,29 +139,16 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     if (modal) {
+        // Modal logic disabled per user request - redirecting directly to pages
+        /*
         document.querySelectorAll('.service-card').forEach(card => {
             card.addEventListener('click', () => {
                 const serviceKey = card.dataset.service;
-                const details = serviceDetails[serviceKey];
-                const lang = localStorage.getItem('inex_lang') || 'en';
-                // (Simplified translations fetch for brevity)
-                const title = "Service Details";
-
-                if (details) {
-                    modalBody.innerHTML = `
-                        <h2 class="text-gradient" style="margin-bottom: 16px; font-size: 2rem;">${title}</h2>
-                        ${details.img ? `<img src="${details.img}" style="width:100%; max-height:250px; object-fit:cover; border-radius:8px; margin-bottom:20px;">` : ''}
-                        ${details.icon ? `<div style="font-size:3rem; margin-bottom:20px;">${details.icon}</div>` : ''}
-                        <p style="font-size: 1rem; opacity: 0.9; margin-bottom: 20px;">Full professional service suite.</p>
-                        <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px; border: 1px solid var(--color-border); text-align: left;">
-                            <strong style="color: var(--color-primary); display:block; margin-bottom:8px;">Includes:</strong>
-                            <span style="opacity:0.8;">${details.features}</span>
-                        </div>
-                    `;
-                    showModal(modal);
-                }
+                // ... modal logic ...
+                showModal(modal);
             });
         });
+        */
 
         const closeBtn = modal.querySelector('.close-modal');
         if (closeBtn) closeBtn.onclick = () => modal.style.display = "none";
@@ -305,38 +292,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Scroll & Accordion ---
-    const backToTop = document.getElementById('back-to-top');
-    if (backToTop) {
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) backToTop.classList.add('visible');
-            else backToTop.classList.remove('visible');
-        });
-        backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    // --- Scroll & Back To Top (Auto-Inject) ---
+    // Check if it exists, otherwise create it to ensure it's on EVERY page
+    let backToTop = document.querySelector('.back-to-top');
+    if (!backToTop) {
+        backToTop = document.createElement('div');
+        backToTop.className = 'back-to-top';
+        backToTop.innerHTML = '↑';
+        backToTop.title = "Back to Top";
+        document.body.appendChild(backToTop);
     }
 
-    // --- Custom Cursor ---
-    const cursorDot = document.querySelector('.cursor-dot');
-    const cursorOutline = document.querySelector('.cursor-outline');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) backToTop.classList.add('visible');
+        else backToTop.classList.remove('visible');
+    });
+    backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-    if (cursorDot && cursorOutline) {
-        window.addEventListener('mousemove', (e) => {
-            const posX = e.clientX;
-            const posY = e.clientY;
-            cursorDot.style.left = `${posX}px`;
-            cursorDot.style.top = `${posY}px`;
-            cursorOutline.animate({
-                left: `${posX}px`,
-                top: `${posY}px`
-            }, { duration: 500, fill: 'forwards' });
-        });
 
-        document.querySelectorAll('a, button, .service-card, .accordion-header, .marquee-logo, .time-slot').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                document.body.classList.add('hovering');
-            });
-            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
-        });
-    }
 
     document.querySelectorAll('.accordion-header').forEach(header => {
         header.addEventListener('click', () => {
@@ -345,6 +318,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (i !== item) i.classList.remove('active');
             });
             item.classList.toggle('active');
+        });
+    });
+
+    // --- FAQ Premium Logic (using scrollHeight for perfect animation) ---
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    faqQuestions.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const item = btn.parentElement;
+            const answer = item.querySelector('.faq-answer');
+            const isActive = item.classList.contains('active');
+
+            // Close all other items
+            document.querySelectorAll('.faq-item').forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.classList.remove('active');
+                    const otherAnswer = otherItem.querySelector('.faq-answer');
+                    if (otherAnswer) otherAnswer.style.maxHeight = null;
+                }
+            });
+
+            // Toggle current item
+            if (isActive) {
+                item.classList.remove('active');
+                answer.style.maxHeight = null;
+            } else {
+                item.classList.add('active');
+                answer.style.maxHeight = answer.scrollHeight + "px";
+            }
         });
     });
 

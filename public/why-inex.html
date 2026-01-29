@@ -4,13 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Explore iNEX services: Web Design, Custom Development, SEO, and Security Audits utilizing the latest technologies.">
-    <title>Services | iNEX</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>Why iNEX | iNEX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.21/vanta.waves.min.js" defer></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.21/vanta.waves.min.js"></script>
 </head>
 
 <body>
@@ -19,9 +18,8 @@
 
     <header class="header">
         <div class="container header-inner">
-            <a href="index.html" class="logo" aria-label="iNEX Home">
-                <img src="assets/images/logo-inex-transparent.png" alt="iNEX Agency Logo" width="120" height="40"
-                    class="logo-img">
+            <a href="index.html" class="logo">
+                <img src="assets/images/logo-inex-transparent.png" alt="iNEX Logo" class="logo-img">
             </a>
             <button class="mobile-nav-toggle" id="mobile-menu-btn" aria-label="Toggle Menu">
                 <span></span>
@@ -38,8 +36,6 @@
                     <div class="dropdown-menu">
                         <a href="services/web-design.html" class="dropdown-item">Web Design</a>
                         <a href="services/web-development.html" class="dropdown-item">Web Development</a>
-                        <a href="services/app-development.html" class="dropdown-item">App Development</a>
-                        <a href="services/redesign.html" class="dropdown-item">Website Redesign</a>
                         <a href="services/seo.html" class="dropdown-item">SEO Strategy</a>
                         <a href="services.html" class="dropdown-item"
                             style="border-top: 1px solid var(--color-border); margin-top: 4px; padding-top: 12px; font-weight: 600;">View
@@ -49,10 +45,10 @@
 
                 <!-- Dropdown: Company -->
                 <div class="nav-item">
-                    <a href="about.html" class="nav-link-trigger" data-i18n="nav_about">Company</a>
+                    <a href="about.html" class="nav-link-trigger active" data-i18n="nav_about">Company</a>
                     <div class="dropdown-menu">
                         <a href="about.html" class="dropdown-item">About Us</a>
-                        <a href="why-inex.html" class="dropdown-item">Why iNEX</a>
+                        <a href="why-inex.html" class="dropdown-item active">Why iNEX</a>
                         <a href="process.html" class="dropdown-item">Our Process</a>
                         <a href="testimonials.html" class="dropdown-item">Testimonials</a>
                     </div>
@@ -102,71 +98,61 @@
 
     <section class="section" style="padding-top: 150px;">
         <div class="container">
+            <h1 class="text-gradient fade-up" style="font-size: 3.5rem; margin-bottom: 24px;">The iNEX Standard.</h1>
+            <p class="fade-up" style="font-size: 1.25rem; opacity: 0.7; max-width: 700px; margin-bottom: 60px;">
+                We are not a "volume shop". We are a specialized team of engineers and designers who believe your
+                website is your most valuable digital asset.
+            </p>
+
             <div class="card-grid">
-                <div class="card fade-up service-card" data-service="webdesign">
-                    <img src="assets/images/redesign-components.png" alt="UI Design"
-                        style="border-radius: 4px; margin-bottom: 24px; width: 100%; height: 220px; object-fit: cover;">
-                    <h3 data-i18n="serv_web_title">Web Design</h3>
-                    <p data-i18n="serv_web_desc" style="opacity: 0.7; margin: 16px 0;">Custom-coded websites built from
-                        scratch.</p>
-                    <a href="services/web-design.html" class="btn-text"
-                        style="color: var(--color-primary); text-decoration: none;" data-i18n="read_more">Read Details
-                        &rarr;</a>
+                <div class="card fade-up">
+                    <h3 style="margin-bottom: 16px;">Engineers, Not Just Designers</h3>
+                    <p style="opacity: 0.8; line-height: 1.6;">
+                        Many agencies use drag-and-drop builders. We write custom code. This means your site is faster,
+                        more secure, and completely unique to your brand.
+                    </p>
                 </div>
-                <!-- ... other cards ... -->
-                <div class="card fade-up service-card" data-service="redesign">
-                    <img src="assets/images/redesign-compare.png" alt="Excellence"
-                        style="border-radius: 4px; margin-bottom: 24px; width: 100%; height: 220px; object-fit: cover;">
-                    <h3 data-i18n="serv_redesign_title">Website Redesign</h3>
-                    <p data-i18n="serv_redesign_desc" style="opacity: 0.7; margin: 16px 0;">Transform legacy websites
-                        into modern platforms.</p>
-                    <a href="services/redesign.html" class="btn-text"
-                        style="color: var(--color-primary); text-decoration: none;" data-i18n="read_more">Read Details
-                        &rarr;</a>
+                <div class="card fade-up" style="transition-delay: 0.1s;">
+                    <h3 style="margin-bottom: 16px;">Security First</h3>
+                    <p style="opacity: 0.8; line-height: 1.6;">
+                        We implement advanced security protocols, headers, and best practices to protect your business
+                        and your customers data from the start.
+                    </p>
                 </div>
-                <div class="card fade-up service-card" data-service="appdev">
-                    <img src="assets/images/app-devices.png" alt="App Development"
-                        style="border-radius: 4px; margin-bottom: 24px; width: 100%; height: 220px; object-fit: cover;">
-                    <h3 data-i18n="serv_app_title">App Development</h3>
-                    <p style="opacity: 0.7; margin: 16px 0;" data-i18n="serv_app_desc">Native iOS and Android
-                        applications.</p>
-                    <a href="services/app-development.html" class="btn-text"
-                        style="color: var(--color-primary); text-decoration: none;" data-i18n="read_more">Read Details
-                        &rarr;</a>
+                <div class="card fade-up" style="transition-delay: 0.2s;">
+                    <h3 style="margin-bottom: 16px;">Long-Term Partnership</h3>
+                    <p style="opacity: 0.8; line-height: 1.6;">
+                        We don't disappear after launch. We offer robust maintenance packages to ensure your digital
+                        infrastructure evolves with your business.
+                    </p>
                 </div>
-
-                <div class="card fade-up service-card">
-                    <img src="assets/images/ui-glass-mockup.png" alt="UI Audit"
-                        style="border-radius: 4px; margin-bottom: 24px; width: 100%; height: 220px; object-fit: cover;">
-                    <h3 data-i18n="serv_audit_title">UI/UX Audit</h3>
-                    <p style="opacity: 0.7; margin: 16px 0;" data-i18n="serv_audit_desc">Deep analysis of your
-                        current user flow.</p>
-                    <a href="services/audit.html" class="btn-text"
-                        style="color: var(--color-primary); text-decoration: none;" data-i18n="read_more">Read Details
-                        &rarr;</a>
-                </div>
-
-                <div class="card fade-up service-card">
-                    <img src="assets/images/seo-dashboard.png" alt="SEO Strategy"
-                        style="border-radius: 4px; margin-bottom: 24px; width: 100%; height: 220px; object-fit: cover;">
-                    <h3 data-i18n="serv_consult_title">SEO & Optimization</h3>
-                    <p style="opacity: 0.7; margin: 16px 0;" data-i18n="serv_consult_desc">Tech strategy for growing
-                        companies.</p>
-                    <a href="services/seo.html" class="btn-text"
-                        style="color: var(--color-primary); text-decoration: none;" data-i18n="read_more">Read Details
-                        &rarr;</a>
-                </div>
-
-                <div class="card fade-up service-card">
-                    <img src="assets/images/redesign-speed.png" alt="Database Solutions"
-                        style="border-radius: 4px; margin-bottom: 24px; width: 100%; height: 220px; object-fit: cover;">
-                    <h3 data-i18n="serv_db_title">Database Solutions</h3>
-                    <p style="opacity: 0.7; margin: 16px 0;" data-i18n="serv_db_desc">Scalable backend architecture.</p>
-                    <a href="services/database.html" class="btn-text"
-                        style="color: var(--color-primary); text-decoration: none;" data-i18n="read_more">Read Details
-                        &rarr;</a>
+                <div class="card fade-up" style="transition-delay: 0.3s;">
+                    <h3 style="margin-bottom: 16px;">Radical Transparency</h3>
+                    <p style="opacity: 0.8; line-height: 1.6;">
+                        You will always know what we are building, why we are building it, and exactly what it costs. No
+                        hidden fees or "black box" development.
+                    </p>
                 </div>
             </div>
+
+            <div
+                style="margin-top: 80px; padding: 40px; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid var(--color-border); text-align: left;">
+                <h2 class="text-gradient" style="margin-bottom: 24px;">The Problem with "Cheap" Websites</h2>
+                <p style="opacity: 0.8; line-height: 1.8; margin-bottom: 24px;">
+                    Cheap templates are often bloated with unnecessary code, slowing down your site and hurting your
+                    Google rankings. They are also prime targets for hackers because the code is public and widely used.
+                </p>
+                <p style="opacity: 0.8; line-height: 1.8;">
+                    <strong>The iNEX Difference:</strong> We build lean, secure architectures specifically for your
+                    needs. The result is a site that loads instantly, ranks better, and converts more visitors into
+                    clients.
+                </p>
+            </div>
+
+            <div style="text-align: center; margin-top: 80px;">
+                <a href="contact.html" class="btn btn-primary">Work With Us</a>
+            </div>
+
         </div>
     </section>
 
@@ -246,9 +232,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- Modals removed to prevent unwanted spacing/visuals -->
-
     <script src="js/translations.js"></script>
     <script src="js/script.js"></script>
 </body>

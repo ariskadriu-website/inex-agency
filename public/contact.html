@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact | iNEX</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -24,56 +24,70 @@
                 <span></span>
             </button>
             <nav class="nav-links" id="nav-links">
-                <a href="index.html" data-i18n="home">Home</a>
-                <a href="services.html" data-i18n="services">Services</a>
-                <a href="about.html" data-i18n="nav_about">About</a>
-                <a href="contact.html" data-i18n="contact">Contact</a>
+                <!-- Home Link -->
+                <a href="index.html" class="nav-link-trigger" style="font-weight: 600;">Home</a>
 
-                <!-- Mobile Only Extras -->
+                <!-- Dropdown: Services -->
+                <div class="nav-item">
+                    <a href="services.html" class="nav-link-trigger" data-i18n="services">Services</a>
+                    <div class="dropdown-menu">
+                        <a href="services/web-design.html" class="dropdown-item">Web Design</a>
+                        <a href="services/web-development.html" class="dropdown-item">Web Development</a>
+                        <a href="services/seo.html" class="dropdown-item">SEO Strategy</a>
+                        <a href="services.html" class="dropdown-item"
+                            style="border-top: 1px solid var(--color-border); margin-top: 4px; padding-top: 12px; font-weight: 600;">View
+                            All Services &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Dropdown: Company -->
+                <div class="nav-item">
+                    <a href="about.html" class="nav-link-trigger" data-i18n="nav_about">Company</a>
+                    <div class="dropdown-menu">
+                        <a href="about.html" class="dropdown-item">About Us</a>
+                        <a href="why-inex.html" class="dropdown-item">Why iNEX</a>
+                        <a href="process.html" class="dropdown-item">Our Process</a>
+                        <a href="testimonials.html" class="dropdown-item">Testimonials</a>
+                    </div>
+                </div>
+
+                <!-- Dropdown: Resources -->
+                <div class="nav-item">
+                    <a href="#" class="nav-link-trigger">Resources</a>
+                    <div class="dropdown-menu">
+                        <a href="faq.html" class="dropdown-item">FAQ</a>
+                        <a href="portal/login.html" class="dropdown-item">Client Portal</a>
+                        <a href="portal/support.html" class="dropdown-item">Support</a>
+                    </div>
+                </div>
+
                 <div class="mobile-menu-extras">
                     <div style="display: flex; gap: 16px; align-items: center;">
                         <button class="theme-toggle-btn"
                             style="background:none; border:none; cursor:pointer; color:var(--color-text); display:flex; align-items:center;">
                             <svg class="theme-icon-svg" viewBox="0 0 24 24"
-                                style="width:24px; height:24px; stroke: currentColor; fill:none; stroke-width:2;">
-                                <!-- Icon injected by JS -->
-                            </svg>
+                                style="width:24px; height:24px; stroke: currentColor; fill:none; stroke-width:2;"></svg>
                         </button>
                         <div style="font-size: 1rem; cursor: pointer; display: flex; gap: 12px; font-weight: 600;">
                             <span class="lang-btn" data-lang="en">EN</span> | <span class="lang-btn"
                                 data-lang="sq">SQ</span> | <span class="lang-btn" data-lang="de">DE</span>
                         </div>
                     </div>
-                    <a href="login.html" style="font-weight:600; font-size:1.1rem; text-decoration: none;"
+                    <a href="portal/login.html" style="font-weight:600; font-size:1.1rem; text-decoration: none;"
                         data-i18n="client_login">Client Login</a>
                 </div>
             </nav>
             <div style="display: flex; gap: 24px; align-items: center;">
-                <!-- Desktop Theme Toggle -->
                 <button class="theme-toggle-btn" id="theme-toggle"
                     style="background:none; border:none; cursor:pointer; color:var(--color-text); display:flex; align-items:center; opacity:0.8;">
                     <svg class="theme-icon-svg" id="theme-icon" viewBox="0 0 24 24"
-                        style="width:20px; height:20px; stroke: currentColor; fill:none; stroke-width:2;">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
+                        style="width:20px; height:20px; stroke: currentColor; fill:none; stroke-width:2;"></svg>
                 </button>
-
                 <div
                     style="font-size: 0.85rem; cursor: pointer; display: flex; gap: 8px; font-weight: 600; opacity: 0.7;">
                     <span class="lang-btn" data-lang="en">EN</span> | <span class="lang-btn" data-lang="sq">SQ</span> |
                     <span class="lang-btn" data-lang="de">DE</span>
                 </div>
-                <a href="login.html"
-                    style="background:none; border:none; color:inherit; font-weight:600; font-size:0.9rem; cursor:pointer; opacity:0.8; text-decoration: none;"
-                    data-i18n="client_login">Client Login</a>
                 <a href="contact.html" id="book-call-btn" class="btn btn-primary" data-i18n="cta">Get Started</a>
             </div>
         </div>
@@ -86,42 +100,49 @@
             </div>
             <div
                 style="max-width: 600px; margin: 0 auto; background: var(--color-surface); padding: 48px; border-radius: 4px; border: 1px solid var(--color-border);">
-                <form id="contact-form" action="https://formspree.io/f/mgokwral" method="POST"
-                    style="display: flex; flex-direction: column; gap: 24px;">
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500;" data-i18n="form_name">Full
-                            Name</label>
-                        <input type="text" name="name" class="form-input" data-i18n-placeholder="form_name_ph"
-                            placeholder="John Doe" required>
+                <form id="contact-form" action="https://formsubmit.co/inex.webagency@gmail.com" method="POST">
+                    <input type="hidden" name="_subject" value="New Project Submission - iNEX">
+                    <input type="hidden" name="_next" value="https://inexagency.netlify.app/contact.html?success=true">
+                    <input type="hidden" name="_captcha" value="false">
+                    <div style="display: flex; flex-direction: column; gap: 24px;">
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 500;"
+                                data-i18n="form_name">Full
+                                Name</label>
+                            <input type="text" name="name" class="form-input" data-i18n-placeholder="form_name_ph"
+                                placeholder="John Doe" required>
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 500;"
+                                data-i18n="form_email">Email
+                                Address</label>
+                            <input type="email" name="email" class="form-input" data-i18n-placeholder="form_email_ph"
+                                placeholder="john@company.com" required>
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 500;"
+                                data-i18n="form_biz">Business
+                                Name</label>
+                            <input type="text" name="business" class="form-input" data-i18n-placeholder="form_biz_ph"
+                                placeholder="Company Ltd.">
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 500;"
+                                data-i18n="form_msg">Message</label>
+                            <textarea name="message" class="form-textarea" rows="5" data-i18n-placeholder="form_msg_ph"
+                                placeholder="Tell us about your project..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" data-i18n="form_btn">Send Message</button>
+                        <p id="form-status" style="margin-top: 10px; display: none;"></p>
                     </div>
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500;"
-                            data-i18n="form_email">Email
-                            Address</label>
-                        <input type="email" name="email" class="form-input" data-i18n-placeholder="form_email_ph"
-                            placeholder="john@company.com" required>
-                    </div>
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500;"
-                            data-i18n="form_biz">Business
-                            Name</label>
-                        <input type="text" name="business" class="form-input" data-i18n-placeholder="form_biz_ph"
-                            placeholder="Company Ltd.">
-                    </div>
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500;"
-                            data-i18n="form_msg">Message</label>
-                        <textarea name="message" class="form-textarea" rows="5" data-i18n-placeholder="form_msg_ph"
-                            placeholder="Tell us about your project..." required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary" data-i18n="form_btn">Send Message</button>
-                    <p id="form-status" style="margin-top: 10px; display: none;"></p>
                 </form>
             </div>
 
             <div style="text-align: center; margin-top: 80px;">
 
                 <div class="fade-up" style="max-width: 600px; margin: 0 auto 60px auto;">
+                    <img src="assets/images/studio-lobby.png" alt="iNEX Studio Lobby"
+                        style="width: 100%; border-radius: 12px; margin-bottom: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid var(--color-border);">
                     <h2 class="text-gradient" style="margin-bottom: 16px;" data-i18n="visit_title">Visit Our Studio</h2>
                     <p style="opacity: 0.8; line-height: 1.8;" data-i18n="visit_desc">
                         While we work globally, our heart beats in Prishtina. Our studio is open for coffee and code
@@ -163,37 +184,32 @@
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- Professional Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-grid" style="margin-bottom: 30px;">
-                <!-- Left: Logo -->
-                <div style="text-align: left;">
-                    <a href="index.html" class="logo" style="margin-bottom: 8px; display: inline-block;">
-                        <img src="assets/images/logo-inex-transparent.png" alt="iNEX Logo" class="footer-logo">
+            <div class="footer-top">
+                <!-- Col 1: Brand -->
+                <div class="footer-col">
+                    <a href="index.html" class="logo" style="margin-bottom: 24px;">
+                        <img src="assets/images/logo-inex-transparent.png" alt="iNEX Logo" class="footer-logo"
+                            style="height: 40px; width: auto; filter: hue-rotate(22deg);">
                     </a>
-                </div>
-
-                <!-- Center: Time & Status -->
-                <div style="text-align: center; font-size: 0.9rem; opacity: 0.6;">
-                    <span id="prishtina-time">--:--</span> in Prishtina • We are Online
-                </div>
-
-                <!-- Right: Socials -->
-                <div
-                    style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; justify-content: center;">
-                    <div class="social-links" style="margin: 0;">
+                    <p style="opacity: 0.7; line-height: 1.6; margin-bottom: 24px;">
+                        Next-level digital solutions for ambitious brands. Specialized in custom engineering, security,
+                        and performance.
+                    </p>
+                    <div class="social-links" style="margin: 0; gap: 16px;">
                         <a href="https://www.facebook.com/profile.php?id=61586909169851" target="_blank"
                             class="social-link" aria-label="Facebook">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                             </svg>
                         </a>
                         <a href="https://www.instagram.com/inexagency/" target="_blank" class="social-link"
                             aria-label="Instagram">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                                 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                                 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
@@ -201,24 +217,51 @@
                         </a>
                     </div>
                 </div>
+
+                <!-- Col 2: Company -->
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <div class="footer-links">
+                        <a href="about.html" class="footer-link" data-i18n="nav_about">About Us</a>
+                        <a href="why-inex.html" class="footer-link" data-i18n="why_inex">Why iNEX</a>
+                        <a href="process.html" class="footer-link" data-i18n="process">Our Process</a>
+                        <a href="contact.html" class="footer-link" data-i18n="contact">Contact</a>
+                    </div>
+                </div>
+
+                <!-- Col 3: Services -->
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <div class="footer-links">
+                        <a href="services/web-design.html" class="footer-link">Web Design</a>
+                        <a href="services/web-development.html" class="footer-link">Web Development</a>
+                        <a href="services/seo.html" class="footer-link">SEO Strategy</a>
+                        <a href="services.html" class="footer-link" data-i18n="services">View All</a>
+                    </div>
+                </div>
+
+                <!-- Col 4: Resources -->
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <div class="footer-links">
+                        <a href="testimonials.html" class="footer-link" data-i18n="testimonials">Testimonials</a>
+                        <a href="faq.html" class="footer-link" data-i18n="faq">FAQ & Support</a>
+                        <a href="legal/privacy.html" class="footer-link">Privacy Policy</a>
+                        <a href="legal/terms.html" class="footer-link">Terms of Service</a>
+                    </div>
+                </div>
             </div>
 
-            <!-- Bottom: Copyright -->
-            <div
-                style="text-align: center; border-top: 1px solid var(--color-border); padding-top: 20px; font-size: 0.8rem; opacity: 0.5;">
-                <p style="margin: 0;" data-i18n="footer_rights">&copy; 2026 iNEX Agency. All rights reserved.</p>
+            <div class="footer-bottom">
+                <div data-i18n="footer_rights">&copy; 2026 iNEX Agency. All rights reserved.</div>
+                <div>
+                    <span id="prishtina-time">--:--</span> in Prishtina • We are Online
+                </div>
             </div>
         </div>
     </footer>
-
-    <div id="back-to-top" class="back-to-top">
-        <svg viewBox="0 0 24 24">
-            <path d="M18 15l-6-6-6 6"></path>
-        </svg>
-    </div>
-
-    <script src="translations.js"></script>
-    <script src="script.js"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/script.js"></script>
 </body>
 
 </html>

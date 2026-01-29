@@ -15,7 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/style.css">
 
     <style>
         .dashboard-layout {
@@ -134,6 +134,9 @@
 </head>
 
 <body class="bg-noise">
+    <!-- MOCK DATABASE (Client Side Logic) -->
+    <script src="../js/client-database.js?v=3"></script>
+
     <!-- Auth Check -->
     <script>
         if (!localStorage.getItem('inex_client_token')) {
@@ -144,13 +147,12 @@
     <div class="dashboard-layout">
         <!-- Sidebar -->
         <aside class="sidebar">
-            <a href="index.html" class="logo" style="margin-bottom: 40px;">
-                <img src="assets/images/logo-inex-transparent.png" alt="iNEX Logo" class="logo-img"
+            <a href="../index.html" class="logo" style="margin-bottom: 40px;">
+                <img src="../assets/images/logo-inex-transparent.png" alt="iNEX Logo" class="logo-img"
                     style="height: 40px;">
             </a>
 
             <nav style="flex: 1;">
-                <!-- Sidebar Links Removed as requested -->
                 <a href="#" class="sidebar-link active">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="3" y="3" width="7" height="7"></rect>
@@ -160,8 +162,6 @@
                     </svg>
                     Overview
                 </a>
-                <!-- Settings Removed for Client -->
-
             </nav>
 
             <button id="logout-btn"
@@ -185,7 +185,6 @@
                 <div style="display: flex; gap: 16px;">
                     <button class="btn btn-secondary" onclick="window.location.href='support.html'">Secure
                         Support</button>
-                    <!-- New Request Removed for Client -->
                 </div>
             </header>
 
@@ -220,43 +219,11 @@
                         <h4 style="margin: 0;">UI/UX Design</h4>
                         <p style="font-size: 0.9rem; opacity: 0.6; margin: 4px 0 0 0;">Jan 16 - Jan 22</p>
                     </div>
-                    <div class="timeline-item completed">
-                        <h4 style="margin: 0;">Frontend Development</h4>
-                        <p style="font-size: 0.9rem; opacity: 0.6; margin: 4px 0 0 0;">In Progress</p>
-                    </div>
-                    <div class="timeline-item">
-                        <h4 style="margin: 0; opacity: 0.5;">CMS Integration</h4>
-                        <p style="font-size: 0.9rem; opacity: 0.4; margin: 4px 0 0 0;">Upcoming</p>
-                    </div>
-                    <div class="timeline-item">
-                        <h4 style="margin: 0; opacity: 0.5;">Final QA & Launch</h4>
-                        <p style="font-size: 0.9rem; opacity: 0.4; margin: 4px 0 0 0;">Feb 15</p>
-                    </div>
                 </div>
 
                 <!-- Recent Invoices -->
                 <div class="stat-card">
                     <h2 style="margin-bottom: 24px;">Invoices</h2>
-                    <div class="invoice-row">
-                        <div>
-                            <div style="font-weight: 600;">INV-2024-001</div>
-                            <div style="font-size: 0.8rem; opacity: 0.6;">Jan 10, 2026</div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div style="font-weight: 600;">€2,500</div>
-                            <span class="badge badge-success">Paid</span>
-                        </div>
-                    </div>
-                    <div class="invoice-row">
-                        <div>
-                            <div style="font-weight: 600;">INV-2024-002</div>
-                            <div style="font-size: 0.8rem; opacity: 0.6;">Jan 24, 2026</div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div style="font-weight: 600;">€2,500</div>
-                            <span class="badge badge-success">Paid</span>
-                        </div>
-                    </div>
                     <div style="margin-top: 20px; text-align: center;">
                         <button class="btn btn-secondary" style="width: 100%; font-size: 0.9rem;">Download All</button>
                     </div>
@@ -265,7 +232,7 @@
         </main>
     </div>
 
-    <!-- API Logic -->
+    <!-- DB Logic (Local) -->
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             // 1. Get Token
@@ -275,111 +242,123 @@
                 return;
             }
 
-            // 2. Fetch Data from API
-            try {
-                const response = await fetch('/api/projects', {
-                    headers: { 'Authorization': token }
-                });
-                const result = await response.json();
+            // 2. Load Local DB
+            // Uses global CLIENT_DB from client-database.js
+            if (!window.CLIENT_DB) {
+                console.error("DB Not Loaded");
+                return;
+            }
 
-                if (!result.success) {
-                    console.error(result.message);
-                    window.location.href = 'login.html';
-                    return;
-                }
+            // Check if Admin accidentally logged in here logic removed, logic is: token must be in DB
+            const data = window.CLIENT_DB[token];
 
-                // Redirect Admin if accidentally here
-                if (result.role === 'admin') {
+            if (!data) {
+                // Not found implies invalid token or Admin Key used (which isn't in DB keys usually)
+                // If it is an admin key, redirect to admin
+                // Check against safe keys
+                const SAFE_ADMIN_KEYS = window.ADMIN_KEYS || ["INEX-ARISIADMIN", "INEX-JONIADMIN"];
+                if (SAFE_ADMIN_KEYS.includes(token)) {
                     window.location.href = 'admin.html';
                     return;
                 }
 
-                const data = result.data;
+                // Invalid token
+                alert("Invalid Access. Please Login Again.");
+                window.location.href = 'login.html';
+                return;
+            }
 
-                // 4. Update UI Elements
+            // 4. Update UI Elements
 
-                // Header
-                document.querySelector('h1.text-gradient').textContent = `Welcome, ${data.name}.`;
+            // Header
+            const headerTitle = document.querySelector('h1.text-gradient');
+            if (headerTitle) headerTitle.textContent = `Welcome, ${data.name}.`;
 
-                // Stats Row
-                const stats = document.querySelectorAll('.stat-card');
-                // Phase
-                stats[0].querySelector('div:nth-child(2)').textContent = data.phase;
-                stats[0].querySelector('div:nth-child(3)').textContent = data.status;
+            // Stats Row
+            const stats = document.querySelectorAll('.stat-card');
+            // Phase (0)
+            if (stats[0]) {
+                const phaseDivs = stats[0].querySelectorAll('div');
+                if (phaseDivs[0]) phaseDivs[0].textContent = data.phase;
+                if (phaseDivs[1]) phaseDivs[1].textContent = data.status;
+            }
 
-                // Milestone
-                stats[1].querySelector('div:nth-child(2)').textContent = data.milestone;
-                stats[1].querySelector('div:nth-child(3)').textContent = `Due: ${data.milestoneDate}`;
+            // Milestone (1)
+            if (stats[1]) {
+                const mileDivs = stats[1].querySelectorAll('div');
+                if (mileDivs[0]) mileDivs[0].textContent = data.milestone;
+                if (mileDivs[1]) mileDivs[1].textContent = `Due: ${data.milestoneDate}`;
+            }
 
-                // Invoices Summary (Simple calculation)
-                const unpaidTotal = data.invoices.filter(inv => inv.status !== 'Paid').reduce((acc, curr) => acc + parseInt(curr.amount.replace(/[^0-9]/g, '')), 0);
-                stats[2].querySelector('div:nth-child(2)').textContent = `€${unpaidTotal}`;
-                stats[2].querySelector('div:nth-child(3)').innerHTML = unpaidTotal === 0 ? '<span style="color:#4ade80">All Paid</span>' : '<span style="color:#facc15">Pending</span>';
+            // Invoices Summary (2)
+            // (calc unpaid)
+            const unpaidTotal = (data.invoices || []).filter(inv => inv.status !== 'Paid').reduce((acc, curr) => acc + parseFloat(curr.amount.replace(/[^0-9.]/g, '')), 0);
+            if (stats[2]) {
+                const invDivs = stats[2].querySelectorAll('div');
+                if (invDivs[0]) invDivs[0].textContent = `€${unpaidTotal.toFixed(2)}`;
+                if (invDivs[1]) invDivs[1].innerHTML = unpaidTotal === 0 ? '<span style="color:#4ade80">All Paid</span>' : '<span style="color:#facc15">Pending</span>';
+            }
 
-                // Timeline Generation
-                const timelineCard = Array.from(document.querySelectorAll('.stat-card')).find(el => el.querySelector('h2')?.textContent.includes('Timeline'));
+            // Timeline Generation
+            const timelineCard = Array.from(document.querySelectorAll('.stat-card')).find(el => el.querySelector('h2')?.textContent.includes('Timeline'));
 
-                if (timelineCard) {
-                    let timelineHTML = '<h2 style="margin-bottom: 24px;">Project Timeline</h2>';
-                    data.timeline.forEach(item => {
-                        const statusClass = item.completed ? 'completed' : '';
-                        const opacity = item.completed ? '1' : '0.5';
-                        timelineHTML += `
-                            <div class="timeline-item ${statusClass}">
-                                <h4 style="margin: 0; opacity: ${opacity};">${item.title}</h4>
-                                <p style="font-size: 0.9rem; opacity: 0.6; margin: 4px 0 0 0;">${item.date}</p>
-                            </div>
-                        `;
-                    });
-                    timelineCard.innerHTML = timelineHTML;
-                }
-
-                // Invoices List
-                const invoicesCard = Array.from(document.querySelectorAll('.stat-card')).find(el => el.querySelector('h2')?.textContent.includes('Invoices'));
-                if (invoicesCard) {
-                    let invoiceHTML = '<h2 style="margin-bottom: 24px;">Invoices</h2>';
-                    data.invoices.forEach(inv => {
-                        const badgeClass = inv.status === 'Paid' ? 'badge-success' : 'badge-pending';
-                        const safeInv = JSON.stringify(inv).replace(/"/g, '&quot;');
-                        invoiceHTML += `
-                            <div class="invoice-row">
-                                <div>
-                                    <div style="font-weight: 600;">${inv.id}</div>
-                                    <div style="font-size: 0.8rem; opacity: 0.6;">${inv.date}</div>
-                                </div>
-                                <div style="display: flex; gap: 12px; align-items: center;">
-                                    <div style="text-align: right;">
-                                        <div style="font-weight: 600;">${inv.amount}</div>
-                                        <span class="badge ${badgeClass}">${inv.status}</span>
-                                    </div>
-                                    <button onclick="downloadInvoice('${data.name}', '${safeInv}')" title="Download PDF" 
-                                        style="background:none; border:1px solid var(--color-border); color:var(--color-primary); width:32px; height:32px; border-radius:6px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                            <polyline points="7 10 12 15 17 10"></polyline>
-                                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    invoiceHTML += `
-                        <div style="margin-top: 20px; text-align: center;">
-                            <button class="btn btn-secondary" style="width: 100%; font-size: 0.9rem;">Download All</button>
+            if (timelineCard) {
+                let timelineHTML = '<h2 style="margin-bottom: 24px;">Project Timeline</h2>';
+                (data.timeline || []).forEach(item => {
+                    const statusClass = item.completed ? 'completed' : '';
+                    const opacity = item.completed ? '1' : '0.5';
+                    timelineHTML += `
+                        <div class="timeline-item ${statusClass}">
+                            <h4 style="margin: 0; opacity: ${opacity};">${item.title}</h4>
+                            <p style="font-size: 0.9rem; opacity: 0.6; margin: 4px 0 0 0;">${item.date}</p>
                         </div>
                     `;
-                    invoicesCard.innerHTML = invoiceHTML;
-                }
+                });
+                timelineCard.innerHTML = timelineHTML;
+            }
 
-            } catch (err) {
-                console.error("API Connection Failed", err);
+            // Invoices List
+            const invoicesCard = Array.from(document.querySelectorAll('.stat-card')).find(el => el.querySelector('h2')?.textContent.includes('Invoices'));
+            if (invoicesCard) {
+                let invoiceHTML = '<h2 style="margin-bottom: 24px;">Invoices</h2>';
+                (data.invoices || []).forEach(inv => {
+                    const badgeClass = inv.status === 'Paid' ? 'badge-success' : 'badge-pending';
+                    const safeInv = JSON.stringify(inv).replace(/"/g, '&quot;');
+                    invoiceHTML += `
+                        <div class="invoice-row">
+                            <div>
+                                <div style="font-weight: 600;">${inv.id}</div>
+                                <div style="font-size: 0.8rem; opacity: 0.6;">${inv.date}</div>
+                            </div>
+                            <div style="display: flex; gap: 12px; align-items: center;">
+                                <div style="text-align: right;">
+                                    <div style="font-weight: 600;">${inv.amount}</div>
+                                    <span class="badge ${badgeClass}">${inv.status}</span>
+                                </div>
+                                <button onclick="downloadInvoice('${data.name}', '${safeInv}')" title="Download PDF" 
+                                    style="background:none; border:1px solid var(--color-border); color:var(--color-primary); width:32px; height:32px; border-radius:6px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="7 10 12 15 17 10"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                invoiceHTML += `
+                    <div style="margin-top: 20px; text-align: center;">
+                        <button class="btn btn-secondary" style="width: 100%; font-size: 0.9rem;">Download All</button>
+                    </div>
+                `;
+                invoicesCard.innerHTML = invoiceHTML;
             }
         });
 
         document.getElementById('logout-btn').addEventListener('click', () => {
             localStorage.removeItem('inex_client_token');
-            window.location.href = 'index.html';
+            window.location.href = '../index.html';
         });
 
         // PDF GENERATION

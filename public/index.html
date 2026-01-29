@@ -4,23 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="iNEX Agency - Premium digital solutions, custom web development, and enterprise-grade security for ambitious brands in Prishtina and beyond.">
     <meta name="google-site-verification" content="fu8Yq6tlAVV0j0ddWufGKq6q7cHlXfHkqV9K-MCS6II" />
     <title>iNEX | Next-Level Digital Solutions</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.21/vanta.waves.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.21/vanta.waves.min.js" defer></script>
 </head>
 
 <body>
-    <div class="cursor-dot"></div>
-    <div class="cursor-outline"></div>
+
 
     <header class="header">
         <div class="container header-inner">
-            <a href="index.html" class="logo">
-                <img src="assets/images/logo-inex-transparent.png" alt="iNEX Logo" class="logo-img">
+            <a href="index.html" class="logo" aria-label="iNEX Home">
+                <img src="assets/images/logo-inex-transparent.png" alt="iNEX Agency Logo" width="120" height="40"
+                    class="logo-img">
             </a>
             <button class="mobile-nav-toggle" id="mobile-menu-btn" aria-label="Toggle Menu">
                 <span></span>
@@ -28,15 +30,46 @@
                 <span></span>
             </button>
             <nav class="nav-links" id="nav-links">
-                <a href="index.html" data-i18n="home">Home</a>
-                <a href="services.html" data-i18n="services">Services</a>
-                <a href="about.html" data-i18n="nav_about">About</a>
-                <a href="contact.html" data-i18n="contact">Contact</a>
+                <!-- Home Link (Visible) -->
+                <a href="index.html" class="nav-link-trigger" style="font-weight: 600;">Home</a>
 
-                <!-- Mobile Only Extras -->
+                <!-- Dropdown: Services -->
+                <div class="nav-item">
+                    <a href="services.html" class="nav-link-trigger" data-i18n="services">Services</a>
+                    <div class="dropdown-menu">
+                        <a href="services/web-design.html" class="dropdown-item">Web Design</a>
+                        <a href="services/web-development.html" class="dropdown-item">Web Development</a>
+                        <a href="services/seo.html" class="dropdown-item">SEO Strategy</a>
+                        <a href="services.html" class="dropdown-item"
+                            style="border-top: 1px solid var(--color-border); margin-top: 4px; padding-top: 12px; font-weight: 600;">View
+                            All Services &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Dropdown: Company -->
+                <div class="nav-item">
+                    <a href="about.html" class="nav-link-trigger" data-i18n="nav_about">Company</a>
+                    <div class="dropdown-menu">
+                        <a href="about.html" class="dropdown-item">About Us</a>
+                        <a href="why-inex.html" class="dropdown-item">Why iNEX</a>
+                        <a href="process.html" class="dropdown-item">Our Process</a>
+                        <a href="testimonials.html" class="dropdown-item">Testimonials</a>
+                    </div>
+                </div>
+
+                <!-- Dropdown: Resources -->
+                <div class="nav-item">
+                    <a href="#" class="nav-link-trigger">Resources</a>
+                    <div class="dropdown-menu">
+                        <a href="faq.html" class="dropdown-item">FAQ</a>
+                        <a href="portal/login.html" class="dropdown-item">Client Portal</a>
+                        <a href="portal/support.html" class="dropdown-item">Support</a>
+                    </div>
+                </div>
+
                 <div class="mobile-menu-extras">
                     <div style="display: flex; gap: 16px; align-items: center;">
-                        <button class="theme-toggle-btn"
+                        <button class="theme-toggle-btn" aria-label="Toggle Theme"
                             style="background:none; border:none; cursor:pointer; color:var(--color-text); display:flex; align-items:center;">
                             <svg class="theme-icon-svg" viewBox="0 0 24 24"
                                 style="width:24px; height:24px; stroke: currentColor; fill:none; stroke-width:2;">
@@ -48,13 +81,13 @@
                                 data-lang="sq">SQ</span> | <span class="lang-btn" data-lang="de">DE</span>
                         </div>
                     </div>
-                    <a href="login.html" style="font-weight:600; font-size:1.1rem; text-decoration: none;"
+                    <a href="portal/login.html" style="font-weight:600; font-size:1.1rem; text-decoration: none;"
                         data-i18n="client_login">Client Login</a>
                 </div>
             </nav>
             <div style="display: flex; gap: 24px; align-items: center;">
                 <!-- Desktop Theme Toggle -->
-                <button class="theme-toggle-btn" id="theme-toggle"
+                <button class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle Theme"
                     style="background:none; border:none; cursor:pointer; color:var(--color-text); display:flex; align-items:center; opacity:0.8;">
                     <svg class="theme-icon-svg" id="theme-icon" viewBox="0 0 24 24"
                         style="width:20px; height:20px; stroke: currentColor; fill:none; stroke-width:2;">
@@ -67,7 +100,7 @@
                     <span class="lang-btn" data-lang="en">EN</span> | <span class="lang-btn" data-lang="sq">SQ</span> |
                     <span class="lang-btn" data-lang="de">DE</span>
                 </div>
-                <a href="login.html"
+                <a href="portal/login.html"
                     style="background:none; border:none; color:inherit; font-weight:600; font-size:0.9rem; cursor:pointer; opacity:0.8; text-decoration: none;"
                     data-i18n="client_login">Client Login</a>
                 <a href="contact.html" id="book-call-btn" class="btn btn-primary" data-i18n="cta">Get Started</a>
@@ -76,28 +109,33 @@
     </header>
 
     <section class="hero" id="vanta-hero">
-        <!-- Static Fallback Image (Visible if JS fails or loads slow) -->
-        <img src="assets/images/hero-bg.png" alt="" class="hero-bg" style="z-index:-2;">
+        <img src="assets/images/hero-premium.png" alt="Premium Digital Background" width="1920" height="1080"
+            class="hero-bg" style="z-index:-2; opacity: 0.6;">
 
         <div class="container hero-content">
             <div class="fade-up"
-                style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(255,255,255,0.05); border-radius: 50px; margin-bottom: 32px; border: 1px solid var(--color-border);">
-                <span style="width: 8px; height: 8px; background: var(--color-primary); border-radius: 50%;"></span>
+                style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(255,255,255,0.05); border-radius: 50px; margin-bottom: 32px; border: 1px solid var(--color-border); backdrop-filter: blur(10px);">
                 <span
-                    style="font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;">Prishtina
-                    Based Agency</span>
+                    style="width: 6px; height: 6px; background: var(--color-primary); border-radius: 50%; box-shadow: 0 0 10px var(--color-primary);"></span>
+                <span
+                    style="font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;">Accepting
+                    New Projects for 2026</span>
             </div>
-            <!-- Dynamic Title ID added -->
+
             <h1 class="fade-up text-gradient" id="dynamic-hero-title" data-i18n="hero_title"
-                style="margin-bottom: 24px; transition-delay: 0.1s;">
-                We build websites that <br> grow your business.
+                style="font-size: 4.5rem; letter-spacing: -0.04em; margin-bottom: 24px; transition-delay: 0.1s; line-height: 1.1;">
+                Building Brands <br> That Dominate.
             </h1>
             <p class="fade-up" data-i18n="hero_sub"
-                style="font-size: 1.25rem; opacity: 0.7; margin-bottom: 48px; max-width: 600px; transition-delay: 0.2s;">
-                Modern designs, high-end engineering, and proven strategies.
+                style="font-size: 1.35rem; opacity: 0.8; margin-bottom: 48px; max-width: 650px; transition-delay: 0.2s; line-height: 1.6;">
+                We engineering high-performance websites that capture attention and drive revenue. No templates. Just
+                pure digital craftsmanship.
             </p>
-            <div className="fade-up" style="transition-delay: 0.3s;">
-                <a href="contact.html" class="btn btn-primary" data-i18n="hero_btn">Get a Free Consultation</a>
+            <div class="fade-up" style="transition-delay: 0.3s; display: flex; gap: 16px;">
+                <a href="contact.html" class="btn btn-primary" data-i18n="hero_btn">Start Your Project</a>
+                <a href="services.html" class="btn"
+                    style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid var(--color-border);">View
+                    Our Work</a>
             </div>
         </div>
     </section>
@@ -106,50 +144,50 @@
     <div class="marquee-container">
         <div class="marquee-content" style="gap: 80px; display: flex;">
             <!-- Set 1 -->
-            <img src="assets/images/logo-tech-1.png" class="marquee-logo"
-                onclick="openCaseStudy('case-luxury.png', 'Nexus Tech')">
-            <img src="assets/images/logo-tech-2.png" class="marquee-logo"
-                onclick="openCaseStudy('case-saas.png', 'Vortex Systems')">
-            <img src="assets/images/logo-tech-3.png" class="marquee-logo"
-                onclick="openCaseStudy('case-fintech.png', 'Strata AI')">
-            <img src="assets/images/logo-tech-4.png" class="marquee-logo"
-                onclick="openCaseStudy('case-luxury.png', 'Aether Cloud')">
+            <img src="assets/images/logo-tech-1.png" class="marquee-logo" alt="Tech Partner 1" width="100" height="40"
+                loading="lazy">
+            <img src="assets/images/logo-tech-2.png" class="marquee-logo" alt="Tech Partner 2" width="100" height="40"
+                loading="lazy">
+            <img src="assets/images/logo-tech-3.png" class="marquee-logo" alt="Tech Partner 3" width="100" height="40"
+                loading="lazy">
+            <img src="assets/images/logo-tech-4.png" class="marquee-logo" alt="Tech Partner 4" width="100" height="40"
+                loading="lazy">
             <!-- Set 2 -->
-            <img src="assets/images/logo-tech-1.png" class="marquee-logo"
-                onclick="openCaseStudy('case-luxury.png', 'Nexus Tech')">
-            <img src="assets/images/logo-tech-2.png" class="marquee-logo"
-                onclick="openCaseStudy('case-saas.png', 'Vortex Systems')">
-            <img src="assets/images/logo-tech-3.png" class="marquee-logo"
-                onclick="openCaseStudy('case-fintech.png', 'Strata AI')">
-            <img src="assets/images/logo-tech-4.png" class="marquee-logo"
-                onclick="openCaseStudy('case-luxury.png', 'Aether Cloud')">
+            <img src="assets/images/logo-tech-1.png" class="marquee-logo" alt="Tech Partner 1" width="100" height="40"
+                loading="lazy">
+            <img src="assets/images/logo-tech-2.png" class="marquee-logo" alt="Tech Partner 2" width="100" height="40"
+                loading="lazy">
+            <img src="assets/images/logo-tech-3.png" class="marquee-logo" alt="Tech Partner 3" width="100" height="40"
+                loading="lazy">
+            <img src="assets/images/logo-tech-4.png" class="marquee-logo" alt="Tech Partner 4" width="100" height="40"
+                loading="lazy">
             <!-- Set 3 -->
-            <img src="assets/images/logo-tech-1.png" class="marquee-logo"
-                onclick="openCaseStudy('case-luxury.png', 'Nexus Tech')">
-            <img src="assets/images/logo-tech-2.png" class="marquee-logo"
-                onclick="openCaseStudy('case-saas.png', 'Vortex Systems')">
-            <img src="assets/images/logo-tech-3.png" class="marquee-logo"
-                onclick="openCaseStudy('case-fintech.png', 'Strata AI')">
-            <img src="assets/images/logo-tech-4.png" class="marquee-logo"
-                onclick="openCaseStudy('case-luxury.png', 'Aether Cloud')">
+            <img src="assets/images/logo-tech-1.png" class="marquee-logo" alt="Tech Partner 1" width="100" height="40"
+                loading="lazy">
+            <img src="assets/images/logo-tech-2.png" class="marquee-logo" alt="Tech Partner 2" width="100" height="40"
+                loading="lazy">
+            <img src="assets/images/logo-tech-3.png" class="marquee-logo" alt="Tech Partner 3" width="100" height="40"
+                loading="lazy">
+            <img src="assets/images/logo-tech-4.png" class="marquee-logo" alt="Tech Partner 4" width="100" height="40"
+                loading="lazy">
             <!-- Set 4 -->
-            <img src="assets/images/logo-tech-1.png" class="marquee-logo"
-                onclick="openCaseStudy('case-luxury.png', 'Nexus Tech')">
-            <img src="assets/images/logo-tech-2.png" class="marquee-logo"
-                onclick="openCaseStudy('case-saas.png', 'Vortex Systems')">
-            <img src="assets/images/logo-tech-3.png" class="marquee-logo"
-                onclick="openCaseStudy('case-fintech.png', 'Strata AI')">
-            <img src="assets/images/logo-tech-4.png" class="marquee-logo"
-                onclick="openCaseStudy('case-luxury.png', 'Aether Cloud')">
+            <img src="assets/images/logo-tech-1.png" class="marquee-logo" alt="Tech Partner 1" width="100" height="40"
+                loading="lazy">
+            <img src="assets/images/logo-tech-2.png" class="marquee-logo" alt="Tech Partner 2" width="100" height="40"
+                loading="lazy">
+            <img src="assets/images/logo-tech-3.png" class="marquee-logo" alt="Tech Partner 3" width="100" height="40"
+                loading="lazy">
+            <img src="assets/images/logo-tech-4.png" class="marquee-logo" alt="Tech Partner 4" width="100" height="40"
+                loading="lazy">
             <!-- Set 5 (Safety Buffer) -->
-            <img src="assets/images/logo-tech-1.png" class="marquee-logo"
-                onclick="openCaseStudy('case-luxury.png', 'Nexus Tech')">
-            <img src="assets/images/logo-tech-2.png" class="marquee-logo"
-                onclick="openCaseStudy('case-saas.png', 'Vortex Systems')">
-            <img src="assets/images/logo-tech-3.png" class="marquee-logo"
-                onclick="openCaseStudy('case-fintech.png', 'Strata AI')">
-            <img src="assets/images/logo-tech-4.png" class="marquee-logo"
-                onclick="openCaseStudy('case-luxury.png', 'Aether Cloud')">
+            <img src="assets/images/logo-tech-1.png" class="marquee-logo" alt="Tech Partner 1" width="100" height="40"
+                loading="lazy">
+            <img src="assets/images/logo-tech-2.png" class="marquee-logo" alt="Tech Partner 2" width="100" height="40"
+                loading="lazy">
+            <img src="assets/images/logo-tech-3.png" class="marquee-logo" alt="Tech Partner 3" width="100" height="40"
+                loading="lazy">
+            <img src="assets/images/logo-tech-4.png" class="marquee-logo" alt="Tech Partner 4" width="100" height="40"
+                loading="lazy">
         </div>
     </div>
 
@@ -171,14 +209,78 @@
                             style="color: var(--color-code-text)">.</span>color <span
                             style="color: var(--color-code-text)">=</span></div>
                     <div style="margin-top: 8px; display: flex; align-items: center; gap: 8px;">
-                        <span style="color: var(--color-code-text)">'</span><input id="code-input" type="text"
-                            value="#EAB308" class="code-input-field"><span
-                            style="color: var(--color-code-text)">';</span>
+                        <span style="color: var(--color-code-text)">'</span>
+                        <label for="code-input" style="display:none;">Color Input</label>
+                        <input id="code-input" type="text" value="#EAB308" class="code-input-field"
+                            aria-label="Enter CSS Color"><span style="color: var(--color-code-text)">';</span>
                     </div>
                 </div>
             </div>
             <div style="flex: 1; min-width: 300px;">
-                <img src="assets/images/coding-detail.png" alt="Coding" style="border-radius: 8px; opacity: 0.6;">
+                <img src="assets/images/coding-detail.png" alt="Coding Visualization" width="600" height="400"
+                    loading="lazy" style="border-radius: 8px; opacity: 0.6;">
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Value Prop Section (Zig-Zag) -->
+    <section class="section" style="background: var(--color-bg);">
+        <div class="container">
+            <!-- Zig-Zag Section 1: Engineers & Security -->
+            <div
+                style="display: flex; align-items: center; gap: 60px; margin-bottom: 100px; flex-wrap: wrap; flex-direction: row;">
+                <div class="fade-up" style="flex: 1; min-width: 300px;">
+                    <img src="assets/images/dev-security.png" alt="Enterprise Security Visualization" width="600"
+                        height="400" loading="lazy"
+                        style="width: 100%; border-radius: 8px; border: 1px solid var(--color-border); box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                </div>
+                <div class="fade-up" style="flex: 1; min-width: 300px;">
+                    <h2 class="text-gradient" style="margin-bottom: 24px;">Enterprise-Grade Security Standards</h2>
+                    <p style="opacity: 0.8; line-height: 1.6; margin-bottom: 16px;">
+                        Security is not an afterthought; it is a fundamental requirement. We develop websites using the
+                        latest security protocols to protect your data and your users' privacy.
+                        From SSL encryption to secure database architecture, we ensure that your digital infrastructure
+                        is resilient against cyber threats.
+                    </p>
+                    <ul style="opacity: 0.8; line-height: 1.6; list-style: none; padding: 0;">
+                        <li style="margin-bottom: 12px; display:flex; align-items:center; gap:10px;">
+                            <span style="color: var(--color-primary);">✓</span> Strict Input Validation
+                        </li>
+                        <li style="margin-bottom: 12px; display:flex; align-items:center; gap:10px;">
+                            <span style="color: var(--color-primary);">✓</span> SQL Injection Prevention
+                        </li>
+                        <li style="display:flex; align-items:center; gap:10px;">
+                            <span style="color: var(--color-primary);">✓</span> Secure Headers
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Zig-Zag Section 2: SEO & Performance -->
+            <div style="display: flex; align-items: center; gap: 60px; flex-wrap: wrap; flex-direction: row-reverse;">
+                <div class="fade-up" style="flex: 1; min-width: 300px;">
+                    <img src="assets/images/seo-dashboard.png" alt="SEO Dashboard Visualization" width="600"
+                        height="400" loading="lazy"
+                        style="width: 100%; border-radius: 8px; border: 1px solid var(--color-border); box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                </div>
+                <div class="fade-up" style="flex: 1; min-width: 300px;">
+                    <h2 class="text-gradient" style="margin-bottom: 24px;">SEO & Performance Optimization</h2>
+                    <p style="opacity: 0.8; line-height: 1.6; margin-bottom: 16px;">
+                        A beautiful website is useless if no one can find it. Our development process prioritizes
+                        Search Engine Optimization (SEO) from the very first line of code.
+                    </p>
+                    <p style="opacity: 0.8; line-height: 1.6;">
+                        We optimize page structure, meta tags, and site speed to ensure high visibility on search
+                        engines like Google. Unlike page builders that generate bloated code, our custom development
+                        ensures lightweight, fast-loading pages.
+                    </p>
+                    <div style="margin-top: 24px;">
+                        <a href="services/seo.html" class="btn-text"
+                            style="color: var(--color-primary); text-decoration: none; font-weight: 600;">View SEO
+                            Strategy
+                            &rarr;</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -258,36 +360,131 @@
         </div>
     </section>
 
+    <!-- NEW: Why Pro Section (Redesigned) -->
+    <section class="section">
+        <div class="container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;">
+            <div class="fade-up">
+                <h2 class="text-gradient" style="margin-bottom: 24px;">Designed to Convert.</h2>
+                <p style="font-size: 1.15rem; line-height: 1.8; opacity: 0.8; margin-bottom: 32px;">
+                    Your website is your 24/7 sales team. We combine psychology-driven design with cutting-edge
+                    technology to turn visitors into customers.
+                </p>
+
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <div style="display: flex; gap: 16px; align-items: flex-start;">
+                        <div
+                            style="background: rgba(234, 179, 8, 0.1); padding: 12px; border-radius: 8px; color: var(--color-primary);">
+                            <svg viewBox="0 0 24 24" style="width: 24px; height: 24px;">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 style="margin-bottom: 8px; font-size: 1.1rem; font-weight: 700;">Modern Stack</h3>
+                            <p style="opacity: 0.7; font-size: 0.95rem;">Built with React, Next.js, and pure CSS for
+                                maximum speed.</p>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 16px; align-items: flex-start;">
+                        <div
+                            style="background: rgba(234, 179, 8, 0.1); padding: 12px; border-radius: 8px; color: var(--color-primary);">
+                            <svg viewBox="0 0 24 24" style="width: 24px; height: 24px;">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 style="margin-bottom: 8px; font-size: 1.1rem; font-weight: 700;">Ironclad Security</h3>
+                            <p style="opacity: 0.7; font-size: 0.95rem;">Enterprise-grade protection against data
+                                breaches.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fade-up" style="position: relative;">
+                <div
+                    style="position: absolute; inset: 0; background: var(--color-primary); filter: blur(100px); opacity: 0.1;">
+                </div>
+                <img src="assets/images/ui-glass-mockup.png" alt="Modern UI Interface" width="522" height="522"
+                    loading="lazy"
+                    style="position: relative; z-index: 1; border-radius: 12px; border: 1px solid var(--color-border); box-shadow: 0 20px 50px rgba(0,0,0,0.3); transform: perspective(1000px) rotateY(-5deg) rotateX(5deg); width: 100%; height: auto;">
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW: Security Section -->
+    <section class="section" style="background: rgba(255,255,255,0.02);">
+        <div class="container" style="max-width: 800px; text-align: left;">
+            <h2 class="text-gradient fade-up" style="margin-bottom: 32px;" data-i18n="home_sec_title">Enterprise-Grade
+                Security Standards</h2>
+            <p class="fade-up" style="font-size: 1.1rem; line-height: 1.8; opacity: 0.8; margin-bottom: 24px;"
+                data-i18n="home_sec_p1">
+                Security is not an afterthought; it is a fundamental requirement. We develop websites using the latest
+                security protocols to protect your data and your users' privacy. From SSL encryption to secure database
+                architecture, we ensure that your digital infrastructure is resilient against cyber threats. We
+                implement strict input validation, prevent SQL injection, and use secure headers to safeguard your
+                platform.
+            </p>
+            <p class="fade-up" style="font-size: 1.1rem; line-height: 1.8; opacity: 0.8;" data-i18n="home_sec_p2">
+                In an era where data breaches are common, having a secure website is not just a technical necessity—it
+                is a promise of trust to your customers. We prioritize privacy by design, ensuring compliance with
+                global data protection regulations. Whether we are building a simple informational site or a complex web
+                application, security is baked into our code from the very first commit.
+            </p>
+        </div>
+    </section>
+
+    <!-- NEW: SEO Section -->
+    <section class="section">
+        <div class="container" style="max-width: 800px; text-align: left;">
+            <h2 class="text-gradient fade-up" style="margin-bottom: 32px;" data-i18n="home_seo_title">SEO & Performance
+                Optimization</h2>
+            <p class="fade-up" style="font-size: 1.1rem; line-height: 1.8; opacity: 0.8; margin-bottom: 24px;"
+                data-i18n="home_seo_p1">
+                A beautiful website is useless if no one can find it. Our development process prioritizes Search Engine
+                Optimization (SEO) from the very first line of code. We optimize page structure, meta tags, and site
+                speed to ensure high visibility on search engines like Google. Unlike page builders that generate
+                bloated code, our custom development ensures lightweight, fast-loading pages that rank better and keep
+                users engaged.
+            </p>
+            <p class="fade-up" style="font-size: 1.1rem; line-height: 1.8; opacity: 0.8; margin-bottom: 24px;"
+                data-i18n="home_seo_p2">
+                We focus on Core Web Vitals, mobile responsiveness, and clean URL structures to give your business the
+                competitive edge it deserves. Faster websites lead to lower bounce rates and higher sales. By building
+                performant digital experiences, we help you capture organic traffic and reduce your reliance on paid
+                advertising.
+            </p>
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="contact.html" class="btn btn-primary" data-i18n="home_seo_btn">Audit My Website</a>
+            </div>
+        </div>
+    </section>
+
     <footer class="footer">
         <div class="container">
-            <div class="footer-grid" style="margin-bottom: 30px;">
-                <!-- Left: Logo -->
-                <div style="text-align: left;">
-                    <a href="index.html" class="logo" style="margin-bottom: 8px; display: inline-block;">
-                        <img src="assets/images/logo-inex-transparent.png" alt="iNEX Logo" class="footer-logo">
+            <div class="footer-top">
+                <!-- Col 1: Brand -->
+                <div class="footer-col">
+                    <a href="index.html" class="logo" style="margin-bottom: 24px;">
+                        <img src="assets/images/logo-inex-transparent.png" alt="iNEX Logo" class="footer-logo"
+                            width="125" height="40" style="height: 40px; width: auto; filter: hue-rotate(22deg);">
                     </a>
-                </div>
-
-                <!-- Center: Time & Status -->
-                <div style="text-align: center; font-size: 0.9rem; opacity: 0.6;">
-                    <span id="prishtina-time">--:--</span> in Prishtina • We are Online
-                </div>
-
-                <!-- Right: Socials -->
-                <div
-                    style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; justify-content: center;">
-                    <div class="social-links" style="margin: 0;">
+                    <p style="opacity: 0.7; line-height: 1.6; margin-bottom: 24px;">
+                        Next-level digital solutions for ambitious brands. Specialized in custom engineering, security,
+                        and performance.
+                    </p>
+                    <div class="social-links" style="margin: 0; gap: 16px;">
                         <a href="https://www.facebook.com/profile.php?id=61586909169851" target="_blank"
                             class="social-link" aria-label="Facebook">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                             </svg>
                         </a>
                         <a href="https://www.instagram.com/inexagency/" target="_blank" class="social-link"
                             aria-label="Instagram">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                                 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                                 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
@@ -295,56 +492,55 @@
                         </a>
                     </div>
                 </div>
+
+                <!-- Col 2: Company -->
+                <div class="footer-col">
+                    <h3>Company</h3>
+                    <div class="footer-links">
+                        <a href="about.html" class="footer-link" data-i18n="nav_about">About Us</a>
+                        <a href="why-inex.html" class="footer-link" data-i18n="why_inex">Why iNEX</a>
+                        <a href="process.html" class="footer-link" data-i18n="process">Our Process</a>
+                        <a href="contact.html" class="footer-link" data-i18n="contact">Contact</a>
+                    </div>
+                </div>
+
+                <!-- Col 3: Services -->
+                <div class="footer-col">
+                    <h3>Services</h3>
+                    <div class="footer-links">
+                        <a href="services/web-design.html" class="footer-link">Web Design</a>
+                        <a href="services/web-development.html" class="footer-link">Web Development</a>
+                        <a href="services/seo.html" class="footer-link">SEO Strategy</a>
+                        <a href="services.html" class="footer-link" data-i18n="services">View All</a>
+                    </div>
+                </div>
+
+                <!-- Col 4: Resources -->
+                <div class="footer-col">
+                    <h3>Resources</h3>
+                    <div class="footer-links">
+                        <a href="testimonials.html" class="footer-link" data-i18n="testimonials">Testimonials</a>
+                        <a href="faq.html" class="footer-link" data-i18n="faq">FAQ & Support</a>
+                        <a href="legal/privacy.html" class="footer-link">Privacy Policy</a>
+                        <a href="legal/terms.html" class="footer-link">Terms of Service</a>
+                    </div>
+                </div>
             </div>
 
-            <!-- Bottom: Copyright -->
-            <div
-                style="text-align: center; border-top: 1px solid var(--color-border); padding-top: 20px; font-size: 0.8rem; opacity: 0.5;">
-                &copy; 2026 iNEX Agency. All rights reserved.
+            <div class="footer-bottom">
+                <div data-i18n="footer_rights">&copy; 2026 iNEX Agency. All rights reserved.</div>
+                <div>
+                    <span id="prishtina-time">--:--</span> in Prishtina • We are Online
+                </div>
             </div>
         </div>
     </footer>
 
-    <div id="back-to-top" class="back-to-top">
-        <svg viewBox="0 0 24 24">
-            <path d="M18 15l-6-6-6 6"></path>
-        </svg>
-    </div>
-
     <!-- Modals -->
-    <div id="case-study-modal" class="modal">
-        <div class="modal-content" style="text-align: center;">
-            <span class="close-modal" onclick="closeModal('case-study-modal')">&times;</span>
-            <h2 id="case-title" class="text-gradient" style="margin-bottom: 24px;">Project Name</h2>
-            <img id="case-img" src="" style="width: 100%; border-radius: 8px;">
-        </div>
-    </div>
-    <div id="portal-modal" class="modal">
-        <div class="modal-content" style="padding: 0;">
-            <span class="close-modal" style="position: absolute; right: 20px; top: 20px;"
-                onclick="closeModal('portal-modal')">&times;</span>
-            <div style="text-align: center; padding: 40px;">
-                <h2 class="text-gradient">Client Portal Demo</h2>
-                <img src="assets/images/portal.png" style="width: 100%; border-radius: 8px;">
-            </div>
-        </div>
-    </div>
-    <div id="booking-overlay" class="modal" style="background: rgba(0,0,0,0.95);">
-        <div class="modal-content" style="text-align: center;">
-            <span class="close-modal" onclick="closeModal('booking-overlay')">&times;</span>
-            <h2 class="text-gradient">Book a Strategy Call</h2>
-            <p style="margin-bottom: 20px; opacity: 0.7;">Select a time below:</p>
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 24px 0;">
-                <div class="time-slot">10:00 AM</div>
-                <div class="time-slot">11:30 AM</div>
-                <div class="time-slot">02:00 PM</div>
-            </div>
-            <button class="btn btn-primary" onclick="alert('Booking Confirmed! (Demo)')">Confirm Time</button>
-        </div>
-    </div>
 
-    <script src="translations.js"></script>
-    <script src="script.js"></script>
+
+    <script src="js/translations.js"></script>
+    <script src="js/script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Vanta Hero setup

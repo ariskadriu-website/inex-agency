@@ -1,21 +1,53 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Page Not Found</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Page Not Found | iNEX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .error-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .error-code {
+            font-size: 8rem;
+            font-weight: 800;
+            line-height: 1;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .error-msg {
+            font-size: 1.5rem;
+            opacity: 0.8;
+            margin-bottom: 40px;
+        }
+    </style>
 </head>
 
-<body class="bg-noise" style="display: flex; align-items: center; justify-content: center; text-align: center;">
-    <div class="container">
-        <h1 class="text-gradient" style="font-size: 6rem; margin-bottom: 0;">404</h1>
-        <h2 style="margin-bottom: 24px;">Signal Lost</h2>
-        <p style="margin-bottom: 40px; opacity: 0.7;">The page you are looking for is currently under development or
-            does not exist.</p>
+<body>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <div class="error-container">
+        <div class="error-code">404</div>
+        <h1 style="margin-bottom: 16px;">Page Not Found</h1>
+        <p class="error-msg">The page you are looking for has been moved or does not exist.</p>
         <a href="index.html" class="btn btn-primary">Return Home</a>
     </div>
+
+    <script src="js/script.js"></script>
 </body>
 
 </html>

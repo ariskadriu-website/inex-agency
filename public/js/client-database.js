@@ -61,7 +61,7 @@ const DEFAULT_DB = {
 };
 
 // 2. Admin Keys (Array for multiple admins)
-const ADMIN_KEYS = [
+window.ADMIN_KEYS = [
     "INEX-ARISIADMIN",
     "INEX-JONIADMIN"
 ];
@@ -96,28 +96,28 @@ const InexGuard = {
 
 // 4. Initialize DB (Load Securely)
 let rawData = localStorage.getItem('INEX_DB_V1');
-let CLIENT_DB;
+window.CLIENT_DB = null;
 
 if (rawData) {
     // Attempt to decrypt
     // If it looks like JSON (old format), migrate it. IF not, decrypt.
     if (rawData.trim().startsWith('{')) {
         console.log("Migrating legacy data to encrypted format...");
-        CLIENT_DB = JSON.parse(rawData);
-        saveDatabase(CLIENT_DB); // Immediately encrypt
+        window.CLIENT_DB = JSON.parse(rawData);
+        saveDatabase(window.CLIENT_DB); // Immediately encrypt
     } else {
-        CLIENT_DB = InexGuard.decrypt(rawData);
+        window.CLIENT_DB = InexGuard.decrypt(rawData);
     }
 }
 
 // Fallback if decryption failed or no data
-if (!CLIENT_DB) {
-    CLIENT_DB = DEFAULT_DB;
+if (!window.CLIENT_DB) {
+    window.CLIENT_DB = DEFAULT_DB;
 }
 
 // Helper function to save changes (Encrypts before saving)
-function saveDatabase(newDb) {
-    CLIENT_DB = newDb;
+window.saveDatabase = function (newDb) {
+    window.CLIENT_DB = newDb;
     const encrypted = InexGuard.encrypt(newDb);
     localStorage.setItem('INEX_DB_V1', encrypted);
     console.log("Database Encrypted & Saved!");

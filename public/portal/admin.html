@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <style>
         .admin-layout {
             padding: 40px;
@@ -142,11 +142,19 @@
 </head>
 
 <body class="bg-noise">
+    <!-- MOCK DATABASE (Client Side Logic) -->
+    <script src="../js/client-database.js?v=3"></script>
+
     <!-- Auth Check -->
     <script>
         const token = localStorage.getItem('inex_client_token');
-        const ADMIN_KEYS = ["INEX-ARISIADMIN", "INEX-JONIADMIN"]; // Keep synchronized with server for quick frontend check
-        if (!ADMIN_KEYS.includes(token)) {
+        // Admin Keys are now loaded from client-database.js window.ADMIN_KEYS
+        // Check if DB loaded, if not, wait (handled by simple script order here)
+        // Since script is blocking, window.ADMIN_KEYS should be available.
+        // Fallback or safety check:
+        const SAFE_ADMIN_KEYS = window.ADMIN_KEYS || ["INEX-ARISIADMIN", "INEX-JONIADMIN"];
+
+        if (!SAFE_ADMIN_KEYS.includes(token)) {
             window.location.href = 'login.html';
         }
     </script>
@@ -154,7 +162,7 @@
     <div class="admin-layout">
         <header class="admin-header">
             <div style="display: flex; align-items: center; gap: 20px;">
-                <img src="assets/images/logo-inex-transparent.png" alt="iNEX Logo" style="height: 40px;">
+                <img src="../assets/images/logo-inex-transparent.png" alt="iNEX Logo" style="height: 40px;">
                 <h1 style="font-size: 1.5rem; margin: 0;">Admin Control Center</h1>
             </div>
             <div style="display: flex; gap: 16px;">
@@ -282,22 +290,11 @@
 
         // RENDER DASHBOARD
         async function fetchProjects() {
-            const token = localStorage.getItem('inex_client_token');
-            try {
-                const response = await fetch('/api/projects', {
-                    headers: { 'Authorization': token }
-                });
-                const result = await response.json();
-
-                if (result.success) {
-                    window.CLIENT_DB = result.data; // Store globally for render
-                    renderDashboard(result.data);
-                } else {
-                    alert("Session Expired");
-                    window.location.href = 'login.html';
-                }
-            } catch (e) {
-                console.error("API Error", e);
+            // Using LOCAL CLIENT_DB instead of API
+            if (window.CLIENT_DB) {
+                renderDashboard(window.CLIENT_DB);
+            } else {
+                alert("Database Error: Could not load client data.");
             }
         }
 
@@ -430,7 +427,7 @@
             renderInvoiceList();
         }
 
-        // SAVE LOGIC (API)
+        // SAVE LOGIC (LOCAL DB)
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const editKey = document.getElementById('edit-mode-key').value;
@@ -454,29 +451,13 @@
                 invoices: currentInvoices // SAVE INVOICES
             };
 
-            // API CALL
-            try {
-                const token = localStorage.getItem('inex_client_token');
-                const response = await fetch('/api/admin/save', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': token
-                    },
-                    body: JSON.stringify({ key, data: newData })
-                });
+            // UPDATE LOCAL DB
+            window.CLIENT_DB[key] = newData;
+            saveDatabase(window.CLIENT_DB); // From client-database.js
 
-                const result = await response.json();
-                if (result.success) {
-                    alert(editKey ? "Project Updated!" : "Project Added!");
-                    closeModal();
-                    fetchProjects(); // Refresh
-                } else {
-                    alert("Error saving: " + result.message);
-                }
-            } catch (err) {
-                alert("Server Connection Failed");
-            }
+            alert(editKey ? "Project Updated!" : "Project Added!");
+            closeModal();
+            fetchProjects(); // Refresh UI
         });
 
         // VIEW AS CLIENT
@@ -489,7 +470,7 @@
 
         document.getElementById('logout-btn').addEventListener('click', () => {
             localStorage.removeItem('inex_client_token');
-            window.location.href = 'index.html';
+            window.location.href = '../index.html';
         });
 
         // --- MSG MODAL ---
@@ -531,31 +512,26 @@
             history.scrollTop = history.scrollHeight;
         }
 
+        // MSG SEND LOGIC (LOCAL)
         document.getElementById('msg-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const input = document.getElementById('msg-input');
             const targetKey = document.getElementById('msg-target-key').value;
             const msg = input.value;
-            const token = localStorage.getItem('inex_client_token'); // Admin Token
 
-            try {
-                const res = await fetch('/api/support', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ token, message: msg, targetKey })
+            // Update Local Data
+            if (window.CLIENT_DB[targetKey]) {
+                if (!window.CLIENT_DB[targetKey].messages) window.CLIENT_DB[targetKey].messages = [];
+                window.CLIENT_DB[targetKey].messages.push({
+                    sender: "Admin",
+                    text: msg,
+                    timestamp: new Date().toISOString()
                 });
-                const result = await res.json();
+                saveDatabase(window.CLIENT_DB);
 
-                if (result.success) {
-                    input.value = "";
-                    closeMsgModal();
-                    fetchProjects(); // Refresh DB to see new msg
-                    alert("Reply Sent!");
-                } else {
-                    alert("Error: " + result.message);
-                }
-            } catch (err) {
-                alert("Connection Failed");
+                input.value = "";
+                closeMsgModal();
+                alert("Reply Sent!");
             }
         });
     </script>

@@ -5,10 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secure Support - iNEX</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body class="bg-noise">
+    <!-- MOCK DATABASE (Client Side Logic) -->
+    <script src="../js/client-database.js?v=3"></script>
+
     <div class="container section">
         <h1 class="text-gradient">Secure Support Line</h1>
         <p>Direct encrypted line to your Project Manager.</p>
@@ -40,17 +43,15 @@
                 return;
             }
 
-            try {
-                const response = await fetch('/api/projects', {
-                    headers: { 'Authorization': token }
-                });
-                const result = await response.json();
+            // LOAD LOCAL
+            if (!window.CLIENT_DB) {
+                console.error("DB Not Loaded");
+                return;
+            }
 
-                if (result.success && result.data && result.data.messages) {
-                    renderMessages(result.data.messages);
-                }
-            } catch (err) {
-                console.error("Failed to load chat history", err);
+            const data = window.CLIENT_DB[token];
+            if (data && data.messages) {
+                renderMessages(data.messages);
             }
         });
 
@@ -91,18 +92,18 @@
                      <div style="font-size:0.75rem; opacity:0.6; margin-bottom: 4px;">Client</div>
                     <span style="background: var(--color-primary); color: black; padding: 8px 14px; border-radius: 12px; display: inline-block;">${msg}</span>
                 </div>`;
-            input.value = '';
             chat.scrollTop = chat.scrollHeight;
+            input.value = '';
 
-            // Send to Backend
-            try {
-                await fetch('/api/support', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ token, message: msg })
+            // SAVE TO LOCAL DB
+            if (window.CLIENT_DB && window.CLIENT_DB[token]) {
+                if (!window.CLIENT_DB[token].messages) window.CLIENT_DB[token].messages = [];
+                window.CLIENT_DB[token].messages.push({
+                    sender: "Client",
+                    text: msg,
+                    timestamp: new Date().toISOString()
                 });
-            } catch (err) {
-                alert("Connection Error");
+                window.saveDatabase(window.CLIENT_DB); // Persist
             }
         });
     </script>
